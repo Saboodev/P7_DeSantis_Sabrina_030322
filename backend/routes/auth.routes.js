@@ -5,7 +5,7 @@ const router = express.Router();
 const password = require("../middleware/password");
 
 // importation du controllers user
-const userCtrl = require('../controllers/user');
+const userCtrl = require('../controllers/auth.controllers');
 
 router.post('/signup', password, userCtrl.signup);
 router.post('/login', userCtrl.login);

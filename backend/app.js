@@ -1,22 +1,20 @@
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const mongoose = require('mongoose'); //facilite les interactions avec la bdd
 const path = require('path');
 
 // Pour l'utilisation des variables d'environnement
 const dotenv = require('dotenv').config();
 
-// Importation des routes
-const userRoutes = require('./routes/user');
-const saucesRoutes = require('./routes/sauces');
 
-// Connexion à la bdd mongoDB
-mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_LINK}`,
-  { useNewUrlParser: true,
-    useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+//importation connexion à la bdd mysql
+const mysql = require("./db/db.mysql");
+
+// Importation des routes
+const userRoutes = require('./routes/user.routes');
+const authRoutes = require('./routes/auth.routes');
+const commentRoutes = require('./routes/comment.routes');
+const postRoutes = require('./routes/post.routes');
 
 // Créer une application express
 const app = express();
@@ -34,9 +32,14 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/images', express.static(path.join(__dirname, 'images')));
+// appel des models dans la DB
+const db = require("./models");
+db.sequelize.sync();
 
-app.use('/api/sauces', saucesRoutes);
-app.use('/api/auth', userRoutes);
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/api/user', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/comment', commentRoutes);
+app.use('/api/post', postRoutes);
 
 module.exports = app;

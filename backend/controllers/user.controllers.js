@@ -6,11 +6,11 @@ const jwt = require('jsonwebtoken');
 
 const dotenv = require('dotenv').config();
 
-const User = require('../models/user');
+// const User = require('../models/user');
 
 // hasher le mdp avant de l'envoyer dans la bdd
 // salt = 10 le nombre de fois où l'algorithme de hashage sera exécuté
-exports.signup = (req, res, next) => {
+exports.signup = (req, res) => {
 
     // chiffrer l'email avant l'envoi dans la bdd
     const emailCryptoJs = cryptoJs.HmacSHA256(req.body.email, `${process.env.CRYPTOJS_EMAIL}`).toString();

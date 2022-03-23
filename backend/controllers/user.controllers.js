@@ -1,60 +1,115 @@
-// Importation de bcrypt pour hasher le mdp
-const bcrypt = require('bcrypt');
-// Importation de crypto-js pour le chiffrement du mail
-const cryptoJs = require("crypto-js");
-const jwt = require('jsonwebtoken');
+const mysqlconnection = require("../db/db.mysql");
+const fs = require('fs');
 
-const dotenv = require('dotenv').config();
+// Importation du models User.js
+const User = require("../models/user.models");
 
-// const User = require('../models/user');
+// Récupérer tous les users
+exports.getAllUsers = (req, res) => {
+  mysqlconnection.query(
+    'SELECT * FROM users', (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
+    }
+    res.status(200).json(result);
+  });
+};
 
-// hasher le mdp avant de l'envoyer dans la bdd
-// salt = 10 le nombre de fois où l'algorithme de hashage sera exécuté
-exports.signup = (req, res) => {
+// Récupérer un user
+exports.getUser = (req, res) => {
+  const userId = req.params.userId;
+  
+  mysqlconnection.query(
+    'SELECT * FROM users WHERE users.userId = ${userId}', (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
+    }
+    res.status(200).json(result);
+  });
+};
 
-    // chiffrer l'email avant l'envoi dans la bdd
-    const emailCryptoJs = cryptoJs.HmacSHA256(req.body.email, `${process.env.CRYPTOJS_EMAIL}`).toString();
-    bcrypt.hash(req.body.password, 10)
-      .then(hash => {
-        const user = new User({
-          email: emailCryptoJs,
-          password: hash
+// Mise à jour user
+exports.updateUser = (req, res) => {
+  if (req.file) {
+    mysqlconnection.query(
+      'SELECT * FROM users WHERE users.userI= ${userId}', (err, result) => {
+      if (err) {
+        res.status(404).json({ err });
+        throw err;
+      }
+      if (users.userId !== req.auth.userId || req.isadmin === true) {
+        res.status(400).json({
+            error: new Error('Requête non valide')
         });
-        console.log(user);
-        // envoi du user dans la bdd
-        user.save()
-          .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-          .catch(error => res.status(400).json({ error }));
+        return false
+    }
+      // On supprime l'ancienne image
+      const filename = users.imageUrl.split('/images/')[1];
+      fs.unlink(`images/${filename}`, (error) => {
+          if (error) throw error;
+      })
+    });
+
+    const userId = req.params.userId;
+
+    let {destination, filename} = req.file
+    destination = destination + filename
+
+    mysqlconnection.query(
+      'INSERT INTO images (post_id, userId, image_url) VALUES (NULL, ${userId}, "${destination}")', 
+      (err, result) => {
+      if (err) {
+        res.status(404).json({ err });
+        throw err;
+      }
+    });
+  }
+
+  const { prenom, nom, pseudo, bio } = req.body;
+  const userId = req.params.userId;
+  mysqlconnection.query(
+    'UPDATE users SET prenom = "${prenom}", nom = "${nom}", pseudo = "${pseudo}", bio = "${bio}" WHERE users.userId = ${userId}', 
+    (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
+    }
+    if (result) {
+      res.status(200).json(result);
+    }
+  });
+};
+
+// Supprimer un user
+exports.deleteUser = (req, res) => {
+  if (req.file) {
+    mysqlconnection.query(
+      'SELECT * FROM users WHERE users.userI= ${userId}', (err, result) => {
+      if (err) {
+        res.status(404).json({ err });
+        throw err;
+      }
+      if (users.userId !== req.auth.userId || req.isadmin === true) {
+        res.status(400).json({
+            error: new Error('Requête non valide')
+        });
+        return false
+    }
+      const filename = users.imageUrl.split('/images/')[1];
+      fs.unlink(`images/${filename}`, () => {
+        mysqlconnection.query('DELETE FROM users WHERE users.userI= ${userId}', users, function (error, results) {
+          if (error) {
+            console.log(error);
+            res.json({ error });
+          }else{
+            console.log(results);
+            res.json({ message: "Utilisateur supprimé" });
+          }
+        })
+        });
       })
       .catch(error => res.status(500).json({ error }));
-  };
-
-  exports.login = (req, res, next) => {
-
-    const emailCryptoJs = cryptoJs.HmacSHA256(req.body.email, `${process.env.CRYPTOJS_EMAIL}`).toString();
-    // rechercher dans bdd si l'utilisateur existe
-    User.findOne({ email: emailCryptoJs })
-      .then(user => {
-        if (!user) {
-          return res.status(401).json({ error: 'Utilisateur non trouvé !' });
-        }
-        // contrôle de la validité du password
-        bcrypt.compare(req.body.password, user.password)
-          .then(valid => {
-            if (!valid) {
-              return res.status(401).json({ error: 'Mot de passe incorrect !' });
-            }
-            // envoi du userID et du token d'authentification dans la response du serveur 
-            res.status(200).json({
-              userId: user._id,
-              token: jwt.sign(
-                { userId: user._id },
-                process.env.TOKEN_USER,
-                { expiresIn: '24h' }
-              )
-            });
-          })
-          .catch(error => res.status(500).json({ error }));
-      })
-      .catch(error => res.status(500).json({ error }));
-  };
+    }
+};

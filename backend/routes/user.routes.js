@@ -1,14 +1,26 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
+
+// importation des controllers 
+const userCtrl = require('../controllers/user.controllers');
+const authCtrl = require('../controllers/auth.controllers');
+
+// const { use } = require('../app');
 const multer = require("../middleware/multer-config")
 const auth = require("../middleware/auth");
 
-// importation du controllers user
-const userCtrl = require('../controllers/user.controllers');
+// middleware password pour un mdp fort
+const password = require("../middleware/password");
 
-// selon CRUD
-router.get("/:id", auth, userCtrl.getOneUser);
-router.get("/image/:id", auth, userCtrl.getProfilPicture);
-router.put("/:id", auth, multer.single("profil_image"), userCtrl.updateOneUser);
+
+//gestion de connexion
+router.post('/register', password, authCtrl.signUp);
+router.post('/login', authCtrl.login);
+// router.get('/logout', authCtrl.logout);
+
+//gestion de l'user
+router.get('/', userCtrl.getAllUsers);
+router.get('/:id', userCtrl.getUser);
+router.put('/:id', auth, multer, userCtrl.updateUser);
+router.delete('/:id', auth, userCtrl.deleteUser);
 
 module.exports = router;

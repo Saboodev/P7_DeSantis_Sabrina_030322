@@ -11,10 +11,9 @@ const dotenv = require('dotenv').config();
 const mysql = require("./db/db.mysql");
 
 // Importation des routes
-const userRoutes = require('./routes/user.routes');
-const authRoutes = require('./routes/auth.routes');
-const commentRoutes = require('./routes/comment.routes');
-const postRoutes = require('./routes/post.routes');
+const userRoutes = require("./routes/user.routes");
+// const commentRoutes = require('./routes/comment.routes');
+// const postRoutes = require('./routes/post.routes');
 
 // Créer une application express
 const app = express();
@@ -32,14 +31,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// appel des models dans la DB
-const db = require("./models");
-db.sequelize.sync();
+// // appel des models dans la DB
+// const db = require("./models");
+// db.sequelize.sync();
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/user', userRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/comment', commentRoutes);
-app.use('/api/post', postRoutes);
+// app.use('/api/comment', commentRoutes);
+// app.use('/api/post', postRoutes);
 
 module.exports = app;

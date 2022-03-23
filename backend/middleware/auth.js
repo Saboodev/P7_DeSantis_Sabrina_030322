@@ -1,5 +1,6 @@
 // package pour créer et vérifier les tokens d'authentification
 const jwt = require('jsonwebtoken');
+const user = require('../models/user.models')
 
 require('dotenv').config();
 

@@ -1,13 +1,13 @@
 //importer le package pour utiliser les variables d'environnement
-const dotenv = require('dotenv');
-dotenv.config();
+const dotenv = require('dotenv').config();
+
 
 //importer mysql
 const mysql = require('mysql');
 
 //les paramètres de connexion 
 const mysqlconnection = mysql.createConnection({
-    hoste: 'localhost',
+    host: 'localhost',
     database: 'groupomania',
     user: 'root',
     password: ''

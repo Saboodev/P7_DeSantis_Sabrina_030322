@@ -1,37 +1,50 @@
 const mysqldb = require("../db/db.mysql");
-const mysqlconnection = mysqldb.getDB();
 const fs = require('fs');
+const Users = require("../models/Users")
+
+// Créer un user
+exports.createNewUser = async (req, res, next) => {
+  try {
+    let { email, password, nom, prenom, pseudo, bio, isadmin, timestamp } = req.body;
+    let users = new Users( email, password, nom, prenom, pseudo, bio, isadmin, timestamp );
+  
+    users = await users.save();
+    console.log(users);
+
+    res.status(201).json({ message: "Nouveau membre crée"});
+  } catch (error) {
+    next (error);
+  }
+};
 
 // Récupérer tous les users
-exports.getAllUsers = (req, res) => {
-  mysqlconnection.query(
-    'SELECT * FROM users', (err, result) => {
-    if (err) {
-      res.status(404).json({ err });
-      throw err;
-    }
-    res.status(200).json(result);
-  });
+exports.getAllUsers = async (req, res, next) => {
+  try {
+    const users = await Users.findAll();
+
+    res.status(200).json({ users });
+  } catch (error) {
+    next(error);
+  }
 };
 
 // Récupérer un user
-exports.getUser = (req, res) => {
-  const userId = req.params.userId;
-  
-  mysqlconnection.query(
-    'SELECT * FROM users WHERE users.userId = userId', (err, result) => {
-    if (err) {
-      res.status(404).json({ err });
-      throw err;
-    }
-    res.status(200).json(result);
-  });
+exports.getUser = async (req, res, next) => {
+  try {
+    let getUserId = req.params.id;
+
+    const users = await Users.findById(getUserId);
+
+    res.status(200).json({ users });
+  } catch (error) {
+    next(error);
+  }
 };
 
 // Mise à jour user
 exports.updateUser = (req, res) => {
   if (req.file) {
-    mysqlconnection.query(
+    mysqldb.query(
       'SELECT * FROM users WHERE email = ? ', (err, result) => {
       if (err) {
         res.status(404).json({ err });
@@ -55,7 +68,7 @@ exports.updateUser = (req, res) => {
     let {destination, filename} = req.file
     destination = destination + filename
 
-    mysqlconnection.query(
+    mysqldb.query(
       'INSERT INTO images (post_id, userId, image_url) VALUES (NULL, ${userId}, "${destination}")', 
       (err, result) => {
       if (err) {
@@ -67,7 +80,7 @@ exports.updateUser = (req, res) => {
 
   const { prenom, nom, pseudo, bio } = req.body;
   const userId = req.params.userId;
-  mysqlconnection.query(
+  mysqldb.query(
     'UPDATE users SET prenom = "${prenom}", nom = "${nom}", pseudo = "${pseudo}", bio = "${bio}" WHERE users.userId = ${userId}', 
     (err, result) => {
     if (err) {
@@ -83,7 +96,7 @@ exports.updateUser = (req, res) => {
 // Supprimer un user
 exports.deleteUser = (req, res) => {
   if (req.file) {
-    mysqlconnection.query(
+    mysqldb.query(
       'SELECT * FROM users WHERE userId = ${userId}', (err, result) => {
       if (err) {
         res.status(404).json({ err });
@@ -97,7 +110,7 @@ exports.deleteUser = (req, res) => {
     }
       const filename = users.imageUrl.split('/images/')[1];
       fs.unlink(`images/${filename}`, () => {
-        mysqlconnection.query('DELETE FROM users WHERE userId = ${userId}', users, function (error, results) {
+        mysqldb.query('DELETE FROM users WHERE userId = ${userId}', users, function (error, results) {
           if (error) {
             console.log(error);
             res.json({ error });

@@ -11,8 +11,8 @@ const mysql = require("./db/db.mysql");
 
 // Importation des routes
 const userRoutes = require("./routes/user.routes");
-// const commentRoutes = require('./routes/comment.routes');
 // const postRoutes = require('./routes/post.routes');
+// const commentRoutes = require('./routes/comment.routes');
 
 // Créer une application express
 const app = express();

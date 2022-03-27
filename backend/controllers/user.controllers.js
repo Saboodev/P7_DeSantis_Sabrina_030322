@@ -1,8 +1,6 @@
-const mysqlconnection = require("../db/db.mysql");
+const mysqldb = require("../db/db.mysql");
+const mysqlconnection = mysqldb.getDB();
 const fs = require('fs');
-
-// Importation du models User.js
-const User = require("../models/user.models");
 
 // Récupérer tous les users
 exports.getAllUsers = (req, res) => {
@@ -21,7 +19,7 @@ exports.getUser = (req, res) => {
   const userId = req.params.userId;
   
   mysqlconnection.query(
-    'SELECT * FROM users WHERE users.userId = ${userId}', (err, result) => {
+    'SELECT * FROM users WHERE users.userId = userId', (err, result) => {
     if (err) {
       res.status(404).json({ err });
       throw err;
@@ -34,7 +32,7 @@ exports.getUser = (req, res) => {
 exports.updateUser = (req, res) => {
   if (req.file) {
     mysqlconnection.query(
-      'SELECT * FROM users WHERE users.userI= ${userId}', (err, result) => {
+      'SELECT * FROM users WHERE email = ? ', (err, result) => {
       if (err) {
         res.status(404).json({ err });
         throw err;
@@ -86,7 +84,7 @@ exports.updateUser = (req, res) => {
 exports.deleteUser = (req, res) => {
   if (req.file) {
     mysqlconnection.query(
-      'SELECT * FROM users WHERE users.userI= ${userId}', (err, result) => {
+      'SELECT * FROM users WHERE userId = ${userId}', (err, result) => {
       if (err) {
         res.status(404).json({ err });
         throw err;
@@ -99,7 +97,7 @@ exports.deleteUser = (req, res) => {
     }
       const filename = users.imageUrl.split('/images/')[1];
       fs.unlink(`images/${filename}`, () => {
-        mysqlconnection.query('DELETE FROM users WHERE users.userI= ${userId}', users, function (error, results) {
+        mysqlconnection.query('DELETE FROM users WHERE userId = ${userId}', users, function (error, results) {
           if (error) {
             console.log(error);
             res.json({ error });

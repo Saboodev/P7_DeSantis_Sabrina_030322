@@ -23,4 +23,6 @@ mysqlconnection.connect((err)=>{
     }
 })
 
-module.exports = mysqlconnection;
+module.exports.getDB = () => {
+    return mysqlconnection
+} 

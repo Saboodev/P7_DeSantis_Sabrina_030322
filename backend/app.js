@@ -6,7 +6,6 @@ const path = require('path');
 // Pour l'utilisation des variables d'environnement
 const dotenv = require('dotenv').config();
 
-
 //importation connexion à la bdd mysql
 const mysql = require("./db/db.mysql");
 

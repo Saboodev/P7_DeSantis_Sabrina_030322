@@ -6,21 +6,11 @@ const mysql = require('mysql2');
 
 //les paramètres de connexion 
 const pool = mysql.createPool({
-    host: 'localhost',
-    database: 'groupomania',
-    user: 'root',
-    password: ''
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD
 });
-
-// //la connexion à la bdd
-// mysqlconnection.connect((err)=>{
-//     if(err){
-//         console.log(`error connecting: ${err}`);
-//     } else{
-//         console.log("connecté à la base de données - groupomania");
-//         console.log(`connected as id ${mysqlconnection.threadId}`);
-//     }
-// })
 
 
 module.exports = pool.promise(); 

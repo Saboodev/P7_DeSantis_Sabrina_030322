@@ -15,31 +15,31 @@ class User {
     async save() {
         // let d = new Date();
         // let yyyy = d.getFullYear();
-        // let mm = d.getMonth();
+        // let mm = d.getMonth() + 1;
         // let dd = d.getDate();
 
-        // let createdAtDate = '${dd}-${mm}-${yyyy}'
+        // let createdAtDate = '${yyyy}-${mm}-${dd}';
 
         let sql = `
         INSERT INTO users(
-        email,
-        password, 
-        pseudo,
         nom,
         prenom,
+        pseudo,
+        email,
         bio,
         isadmin,
-        timestamp
+        timestamp,
+        password   
         )
         VALUES(
-            '${this.email}',
-            '${this.password}',
-            '${this.pseudo}',
             '${this.nom}',
             '${this.prenom}',
+            '${this.pseudo}',
+            '${this.email}',
             '${this.bio}',
             '${this.isadmin}',
-            '${this.timestamp}'
+            '${this.timestamp}',
+            '${this.password}'
         );
         ` ;
         return mysqldb.execute(sql);
@@ -54,6 +54,12 @@ class User {
 
     static findById(userId) {
         let sql = `SELECT * FROM users WHERE userId = ${userId};`;
+
+        return mysqldb.execute(sql);
+    }
+
+    static findByEmail(email) {
+        let sql = `SELECT * FROM users WHERE email = ${email};`;
 
         return mysqldb.execute(sql);
     }

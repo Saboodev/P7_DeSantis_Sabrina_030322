@@ -5,14 +5,14 @@ const auth = require("../middleware/auth");
 const multer = require("../middleware/multer-config")
 
 // selon CRUD
-router.get("/", auth, postCtrl.getAllPosts);
-router.get("/:id", auth, postCtrl.getPostById);
-router.post("/", auth, multer, postCtrl.createNewPost);
-router.delete("/:id", auth, postCtrl.deletePost);
-router.put("/:id", auth, postCtrl.modifyPost);
+router.get("/", postCtrl.getAllPosts);
+router.get("/:id", postCtrl.getPostById);
+router.post("/", multer, postCtrl.createNewPost);
+router.delete("/:id", postCtrl.deletePost);
+router.put("/:id", postCtrl.modifyPost);
 
 // Images
-router.get("/image/:id", auth, postCtrl.getImage);
+// router.get("/image/:id", auth, postCtrl.getImage);
 
 // Like / Unlike
 // router.patch("/:id/likeunlike", auth, postCtrl.likeUnlikePost);

@@ -43,6 +43,18 @@ class Posts {
         return mysqldb.execute(sql);
     }
 
+    static updatePost() {
+        let sql = `UPDATE posts SET contenu = "${contenu}", image_url = "${image_url}" WHERE userId = ${userId};`; 
+
+        return mysqldb.execute(sql);
+    }
+
+    static destroyPost() {
+        let sql = `DELETE FROM posts WHERE userId = ${userId};`;
+
+        return mysqldb.execute(sql);
+    }
+
 }
 
 

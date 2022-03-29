@@ -4,9 +4,9 @@
   --red-1: #d1515a;
   --red-2: #BA4E56;
   --gray-1: #f6f6f6;
-  --gray-2: #ddd;
+  --gray-2: #c4c4c4;
   --gray-3: #A2A2A2;
-  --text-color: #444;
+  --text-color: #091f43;
   --text-primary-color: #ffffff;
 
   --border: 1px solid var(--gray-3);
@@ -47,7 +47,7 @@ body {
   margin: 0;
   font-family: var(--font-family);
   color: var(--dark-blue-2);
-  background-color: var(--gray-1);
+  background-color: var(--gray-3);
 }
 
 // flex

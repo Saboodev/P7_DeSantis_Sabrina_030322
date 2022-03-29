@@ -28,10 +28,10 @@ import Aside from './components/Aside/Aside.vue';
 .header {
   grid-area: header;
 }
-.shop {
+.feed {
   grid-area: feed;
 }
-.cart {
+.aside {
   grid-area: aside;
 }
 .footer {

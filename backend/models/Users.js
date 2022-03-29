@@ -59,11 +59,23 @@ class User {
     }
 
     static findByEmail(email) {
-        let sql = `SELECT * FROM users WHERE email = ${email};`;
+        let sql = `SELECT * FROM users WHERE email = '${email}';`;
 
         return mysqldb.execute(sql);
     }
 
+    static modifyUser() {
+        let sql = `UPDATE users SET prenom = "${prenom}", nom = "${nom}", pseudo = "${pseudo}", bio = "${bio}" WHERE userId = ${userId}`; 
+
+        return mysqldb.execute(sql);
+    }
+
+    static destroyUser() {
+        let sql = `DELETE FROM users WHERE userId = ${userId}`;
+        
+        return mysqldb.execute(sql);
+    }
+    
 }
 
 

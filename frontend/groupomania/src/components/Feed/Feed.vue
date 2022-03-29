@@ -1,8 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import FeedPosts from './FeedPosts.vue';
+</script>
 
 <template>
   <div>
-    <h1>Feed</h1>
+    <FeedPosts />
   </div>
 </template>
 

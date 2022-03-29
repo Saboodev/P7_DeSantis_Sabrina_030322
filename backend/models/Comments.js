@@ -38,6 +38,18 @@ class Comments {
         return mysqldb.execute(sql);
     }
 
+    static updateComment() {
+        let sql = `UPDATE comments SET content = "${content}" WHERE userId = ${userId};`; 
+
+        return mysqldb.execute(sql);
+    }
+
+    static destroyComment() {
+        let sql = `DELETE FROM comments WHERE userId = ${userId};`;
+
+        return mysqldb.execute(sql);
+    }
+
 }
 
 module.exports = Comments;

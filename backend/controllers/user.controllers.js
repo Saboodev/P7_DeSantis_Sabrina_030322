@@ -1,6 +1,6 @@
 const mysqldb = require("../db/db.mysql");
 const fs = require('fs');
-const Users = require("../models/Users")
+const { Users, Posts } = require("../models/Users")
 
 // Créer un user
 exports.createNewUser = async (req, res, next) => {

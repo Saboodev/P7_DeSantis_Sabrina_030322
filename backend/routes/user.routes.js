@@ -13,11 +13,11 @@ const password = require("../middleware/password");
 
 //gestion de connexion
 router.post('/register', password, authCtrl.signUp);
-router.post('/login', auth, authCtrl.login);
+router.post('/login', authCtrl.login);
 // router.get('/logout', authCtrl.logout);
 
 //gestion de l'user
-router.post('/', multer, userCtrl.createNewUser);
+router.post('/', auth, multer, userCtrl.createNewUser);
 router.get('/', userCtrl.getAllUsers);
 router.get('/:id', userCtrl.getUser);
 router.put('/:id', auth, multer, userCtrl.updateUser);

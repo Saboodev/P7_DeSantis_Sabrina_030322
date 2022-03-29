@@ -1,11 +1,12 @@
 const fs = require('fs');
-const Posts = require("../models/Posts")
+const Posts = require("../models/Posts");
+const Users = require("../models/Users");
 
 // Créer un post
 exports.createNewPost = async (req, res, next) => {
     try {
-        let { contenu, image_url } = req.body;
-        let posts = new Posts( contenu, image_url );
+        let { contenu, imageUrl } = req.body;
+        let posts = new Posts( contenu, imageUrl );
       
         posts = await posts.save();
     
@@ -28,8 +29,10 @@ exports.getAllPosts = async (req, res, next) => {
 
 // Récupérer un user
 exports.getPostById = async (req, res, next) => {
+  console.log(req.params);
     try {
         let getPostId = req.params.id;
+        console.log(req.params.id);
     
         const posts = await Posts.findById(getPostId);
     
@@ -39,12 +42,38 @@ exports.getPostById = async (req, res, next) => {
       }
 };
 
+//Supprimer un post
 exports.deletePost = async (req, res, next) => {
-    res.send("Delete post route");
+  try {
+    let getPostId = req.params.id;
+    console.log(req.params.id);
+
+    const posts = await Posts.findById(getPostId);
+      
+    res.status(200).json({ posts });
+    } catch (error) {
+    next(error);
+    }
+    if (users[0][0].userId !== req.auth.userId || req.isadmin === false) {
+      res.status(400).json({
+          error: new Error('Requête non valide')
+      });
+      return false
+    }
+
+    const filename = posts.imageUrl.split('/images/')[1];
+    fs.unlink(`images/${filename}`, () => {
+      Posts.destroyPost()
+      .then(() => 
+      res.status(201).json({ message: "Post supprimé !" }))
+      .catch(error => res.status(400).json({ error: "Mais dites donc, il n'est pas de vous ce post !" }))  
+      })
+    .catch(error => res.status(500).json({ error }));
 }
 
-exports.modifyPost = async (req, res, next) => {
-    res.send("Modify post route");
-} 
+// exports.modifyPost = async (req, res, next) => {
+//     res.send("Modify post route");
+// } 
+
   
     

@@ -1,6 +1,8 @@
 const mysqldb = require("../db/db.mysql");
 const fs = require('fs');
-const { Users, Posts } = require("../models/Users")
+const Users = require("../models/Users");
+const Posts = require("../models/Posts");
+
 
 // Créer un user
 exports.createNewUser = async (req, res, next) => {
@@ -45,7 +47,7 @@ exports.getUser = async (req, res, next) => {
 exports.updateUser = (req, res) => {
   if (req.file) {
     mysqldb.query(
-      'SELECT * FROM users WHERE email = ? ', (err, result) => {
+      `SELECT * FROM users WHERE email = "${email}";`, (err, result) => {
       if (err) {
         res.status(404).json({ err });
         throw err;
@@ -63,13 +65,13 @@ exports.updateUser = (req, res) => {
       })
     });
 
-    const userId = req.params.userId;
+    const userId = req.params.id;
 
     let {destination, filename} = req.file
     destination = destination + filename
 
     mysqldb.query(
-      'INSERT INTO images (post_id, userId, image_url) VALUES (NULL, ${userId}, "${destination}")', 
+      `INSERT INTO images (userId, imageUrl) VALUES (NULL, ${userId}, "${destination}")`, 
       (err, result) => {
       if (err) {
         res.status(404).json({ err });
@@ -81,7 +83,7 @@ exports.updateUser = (req, res) => {
   const { prenom, nom, pseudo, bio } = req.body;
   const userId = req.params.userId;
   mysqldb.query(
-    'UPDATE users SET prenom = "${prenom}", nom = "${nom}", pseudo = "${pseudo}", bio = "${bio}" WHERE users.userId = ${userId}', 
+    `UPDATE users SET prenom = "${prenom}", nom = "${nom}", pseudo = "${pseudo}", bio = "${bio}" WHERE userId = ${userId}`, 
     (err, result) => {
     if (err) {
       res.status(404).json({ err });
@@ -95,32 +97,33 @@ exports.updateUser = (req, res) => {
 
 // Supprimer un user
 exports.deleteUser = (req, res) => {
-  if (req.file) {
+  let userId = req.params.id;
     mysqldb.query(
-      'SELECT * FROM users WHERE userId = ${userId}', (err, result) => {
+      `SELECT * FROM users WHERE userId = ${userId}`, (err) => {
+        console.log("103");
       if (err) {
         res.status(404).json({ err });
         throw err;
       }
-      if (users.userId !== req.auth.userId || req.isadmin === true) {
+      if (users[0][0].userId !== req.auth.userId || req.isadmin === false) {
         res.status(400).json({
             error: new Error('Requête non valide')
         });
-        return false
+        return
     }
-      const filename = users.imageUrl.split('/images/')[1];
-      fs.unlink(`images/${filename}`, () => {
-        mysqldb.query('DELETE FROM users WHERE userId = ${userId}', users, function (error, results) {
-          if (error) {
-            console.log(error);
-            res.json({ error });
-          }else{
-            console.log(results);
-            res.json({ message: "Utilisateur supprimé" });
-          }
-        })
-        });
-      })
-      .catch(error => res.status(500).json({ error }));
-    }
-};
+    console.log("test");
+      // const filename = users.imageUrl.split('/images/')[1];
+      // fs.unlink(`images/${filename}`, () => {
+      //   mysqldb.query(`DELETE FROM users WHERE userId = ${userId}`, users, function (error, results) {
+      //     if (error) {
+      //       console.log(error);
+      //       res.json({ error });
+      //     }else{
+      //       console.log(results);
+      //       res.json({ message: "Utilisateur supprimé" });
+      //     }
+      //   })
+      //   });
+      // })
+      // .catch(error => res.status(500).json({ error }));
+    })}

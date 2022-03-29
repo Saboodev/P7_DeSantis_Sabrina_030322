@@ -1,11 +1,13 @@
 const fs = require('fs');
-const Comments = require("../models/Comments")
+const Comments = require("../models/Comments");
+const Posts = require("../models/Posts");
+const Users = require("../models/Users");
 
 // Créer un post
 exports.createComment = async (req, res, next) => {
     try {
-        let { contenu, image_url } = req.body;
-        let comments = new Comments( contenu, image_url );
+        let content = req.body;
+        let comments = new Comments( content );
       
         comments = await comments.save();
     

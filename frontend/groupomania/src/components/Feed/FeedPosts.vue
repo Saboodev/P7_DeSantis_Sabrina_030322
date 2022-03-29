@@ -1,26 +1,9 @@
-<script setup lang="ts">
-import FeedComments from './FeedComments.vue';
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div class="grid p-20">
-    <FeedComments />
-    <FeedComments />
-    <FeedComments />
-    <FeedComments />
-    <FeedComments />
-    <FeedComments />
-    <FeedComments />
-    <FeedComments />
-    <FeedComments />
+  <div class="b5">
+    <h1>Feed Posts</h1>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-auto-rows: 300px;
-  gap: 20px;
-}
-</style>
+<style lang="scss" scoped></style>

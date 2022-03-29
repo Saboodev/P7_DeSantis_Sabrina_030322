@@ -64,13 +64,13 @@ class User {
         return mysqldb.execute(sql);
     }
 
-    static modifyUser() {
+    static modifyUser(userId) {
         let sql = `UPDATE users SET prenom = "${prenom}", nom = "${nom}", pseudo = "${pseudo}", bio = "${bio}" WHERE userId = ${userId}`; 
 
         return mysqldb.execute(sql);
     }
 
-    static destroyUser() {
+    static destroyUser(userId) {
         let sql = `DELETE FROM users WHERE userId = ${userId}`;
         
         return mysqldb.execute(sql);

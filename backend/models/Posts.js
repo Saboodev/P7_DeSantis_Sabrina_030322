@@ -1,9 +1,9 @@
 const mysqldb = require('../db/db.mysql');
 
 class Posts {
-    constructor(contenu, image_url, created){
+    constructor(contenu, imageUrl, created){
         this.contenu = contenu;
-        this.image_url = image_url;
+        this.imageUrl = imageUrl;
         this.created = created;
     }
 
@@ -18,12 +18,12 @@ class Posts {
         let sql = `
         INSERT INTO posts(
         contenu,
-        image_url,
+        imageUrl,
         created
         )
         VALUES(
             '${this.contenu}',
-            '${this.image_url}',
+            '${this.imageUrl}',
             '${createdAtDate}'
         );
         ` ;
@@ -38,13 +38,13 @@ class Posts {
     }
 
     static findById(postId) {
-        let sql = `SELECT * FROM posts WHERE postId = ${postId};`;
+        let sql = `SELECT * FROM posts WHERE postId = "${postId}";`;
 
         return mysqldb.execute(sql);
     }
 
     static updatePost() {
-        let sql = `UPDATE posts SET contenu = "${contenu}", image_url = "${image_url}" WHERE userId = ${userId};`; 
+        let sql = `UPDATE posts SET contenu = "${contenu}", imageUrl = "${imageUrl}" WHERE userId = ${userId};`; 
 
         return mysqldb.execute(sql);
     }

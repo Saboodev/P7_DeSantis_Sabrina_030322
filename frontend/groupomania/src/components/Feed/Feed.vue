@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import FeedPosts from './FeedPosts.vue';
+import FeedPostsList from './FeedPostsList.vue';
 </script>
 
 <template>

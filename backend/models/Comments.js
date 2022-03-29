@@ -32,8 +32,8 @@ class Comments {
         return mysqldb.execute(sql);
     }
 
-    static findById(comments_id) {
-        let sql = `SELECT * FROM comments WHERE comments_id = ${comments_id};`;
+    static findById(commentId) {
+        let sql = `SELECT * FROM comments WHERE commentId = ${commentId};`;
 
         return mysqldb.execute(sql);
     }

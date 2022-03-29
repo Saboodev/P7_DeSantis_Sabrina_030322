@@ -3,8 +3,12 @@ import AsideMembers from './AsideMembers.vue';
 </script>
 
 <template>
-  <div class="p-20">
-    <h2 class="mb-10">Membres</h2>
+  <div class="d-flex flex-column">
+    <AsideMembers />
+    <AsideMembers />
+    <AsideMembers />
+    <AsideMembers />
+    <AsideMembers />
     <AsideMembers />
   </div>
 </template>

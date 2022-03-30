@@ -2,13 +2,14 @@ const mysqldb = require("../db/db.mysql");
 const fs = require('fs');
 const Users = require("../models/Users");
 const Posts = require("../models/Posts");
+const { destroyUser } = require("../models/Users");
 
 
 // Créer un user
 exports.createNewUser = async (req, res, next) => {
   try {
     let { email, password, nom, prenom, pseudo, bio, isadmin, timestamp } = req.body;
-    let users = new Users( email, password, nom, prenom, pseudo, bio, isadmin, timestamp );
+    let users = new Users( email, password, pseudo, nom, prenom, bio, isadmin, timestamp );
   
     users = await users.save();
     console.log(users);
@@ -44,74 +45,35 @@ exports.getUser = async (req, res, next) => {
 };
 
 // Mise à jour user
-exports.updateUser = (req, res) => {
-  if (req.file) {
-    mysqldb.query(
-      `SELECT * FROM users WHERE email = "${email}";`, (err, result) => {
-      if (err) {
-        res.status(404).json({ err });
-        throw err;
+exports.updateUser = async (req, res) => {
+  let userId = req.params.id;
+  let { nom, prenom, pseudo, bio } = req.body;
+  const users = await Users.findById(userId);
+    //   if (users.userId !== req.auth.userId || req.isadmin === true) {
+    //     res.status(400).json({
+    //         error: new Error('Requête non valide')
+    //     });
+    //     return false
+    // }})
+
+    if (users[0].length == 0) {
+      return res.status(400).json({ message: "utilisateur inexistant"});
       }
-      if (users.userId !== req.auth.userId || req.isadmin === true) {
-        res.status(400).json({
-            error: new Error('Requête non valide')
-        });
-        return false
-    }
-      // On supprime l'ancienne image
-      const filename = users.imageUrl.split('/images/')[1];
-      fs.unlink(`images/${filename}`, (error) => {
-          if (error) throw error;
-      })
-    });
-
-    const userId = req.params.id;
-
-    let {destination, filename} = req.file
-    destination = destination + filename
-
-    mysqldb.query(
-      `INSERT INTO images (userId, imageUrl) VALUES (NULL, ${userId}, "${destination}")`, 
-      (err, result) => {
-      if (err) {
-        res.status(404).json({ err });
-        throw err;
-      }
-    });
-  }
-
-  const { prenom, nom, pseudo, bio } = req.body;
-  const userId = req.params.userId;
-  mysqldb.query(
-    `UPDATE users SET prenom = "${prenom}", nom = "${nom}", pseudo = "${pseudo}", bio = "${bio}" WHERE userId = ${userId}`, 
-    (err, result) => {
-    if (err) {
-      res.status(404).json({ err });
-      throw err;
-    }
-    if (result) {
-      res.status(200).json(result);
-    }
-  });
+      Users.modifyUser(userId, prenom, nom, pseudo, bio);
+      return res.status(200).json({  message: "Profil mis à jour" });
 };
 
 // Supprimer un user
-exports.deleteUser = (req, res) => {
-  let userId = req.params.id;
-    mysqldb.query(
-      `SELECT * FROM users WHERE userId = ${userId}`, (err) => {
-        console.log("103");
-      if (err) {
-        res.status(404).json({ err });
-        throw err;
-      }
-      if (users[0][0].userId !== req.auth.userId || req.isadmin === false) {
-        res.status(400).json({
-            error: new Error('Requête non valide')
-        });
-        return
-    }
-    console.log("test");
+exports.deleteUser = async (req, res) => {
+  let getUserId = req.params.id;
+  const users = await Users.findById(getUserId);
+  console.log(users[0].length);
+  if (users[0].length == 0) {
+    return res.status(400).json({ message: "utilisateur inexistant"});
+  }
+  Users.destroyUser(getUserId);
+  return res.status(200).json({  message: "Utilisateur supprimé" });
+
       // const filename = users.imageUrl.split('/images/')[1];
       // fs.unlink(`images/${filename}`, () => {
       //   mysqldb.query(`DELETE FROM users WHERE userId = ${userId}`, users, function (error, results) {
@@ -126,4 +88,5 @@ exports.deleteUser = (req, res) => {
       //   });
       // })
       // .catch(error => res.status(500).json({ error }));
-    })}
+    }
+

@@ -2,7 +2,7 @@
 
 <template>
   <div class="b5">
-    <h1>Feed Posts</h1>
+    <h1>Fil d'actualité</h1>
   </div>
 </template>
 

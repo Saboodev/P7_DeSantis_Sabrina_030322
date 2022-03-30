@@ -13,12 +13,6 @@ class User {
     }
 
     async save() {
-        // let d = new Date();
-        // let yyyy = d.getFullYear();
-        // let mm = d.getMonth() + 1;
-        // let dd = d.getDate();
-
-        // let createdAtDate = '${yyyy}-${mm}-${dd}';
 
         let sql = `
         INSERT INTO users(
@@ -28,7 +22,6 @@ class User {
         email,
         bio,
         isadmin,
-        timestamp,
         password   
         )
         VALUES(
@@ -38,7 +31,6 @@ class User {
             '${this.email}',
             '${this.bio}',
             '${this.isadmin}',
-            '${this.timestamp}',
             '${this.password}'
         );
         ` ;
@@ -64,7 +56,7 @@ class User {
         return mysqldb.execute(sql);
     }
 
-    static modifyUser(userId) {
+    static modifyUser(userId, prenom, nom, pseudo, bio) {
         let sql = `UPDATE users SET prenom = "${prenom}", nom = "${nom}", pseudo = "${pseudo}", bio = "${bio}" WHERE userId = ${userId}`; 
 
         return mysqldb.execute(sql);

@@ -43,14 +43,14 @@ class Posts {
         return mysqldb.execute(sql);
     }
 
-    static updatePost() {
-        let sql = `UPDATE posts SET contenu = "${contenu}", imageUrl = "${imageUrl}" WHERE userId = ${userId};`; 
+    static updatePost(postId, contenu, imageUrl) {
+        let sql = `UPDATE posts SET contenu = "${contenu}", imageUrl = "${imageUrl}" WHERE postId = ${postId};`; 
 
         return mysqldb.execute(sql);
     }
 
-    static destroyPost() {
-        let sql = `DELETE FROM posts WHERE userId = ${userId};`;
+    static destroyPost(postId) {
+        let sql = `DELETE FROM posts WHERE postId = ${postId};`;
 
         return mysqldb.execute(sql);
     }

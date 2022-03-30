@@ -7,7 +7,7 @@ exports.createNewPost = async (req, res, next) => {
     try {
         let { contenu, imageUrl } = req.body;
         let posts = new Posts( contenu, imageUrl );
-      
+
         posts = await posts.save();
     
         res.status(201).json({ message: "Nouveau post crée"});
@@ -20,7 +20,6 @@ exports.createNewPost = async (req, res, next) => {
 exports.getAllPosts = async (req, res, next) => {
     try {
         const posts = await Posts.findAll();
-    
         res.status(200).json({ posts });
       } catch (error) {
         next(error);
@@ -44,33 +43,17 @@ exports.getPostById = async (req, res, next) => {
 
 //Supprimer un post
 exports.deletePost = async (req, res, next) => {
-  try {
-    let getPostId = req.params.id;
-    console.log(req.params.id);
+  
+  let postId = req.params.id;
+  
+  const posts = await Posts.findById(postId);
 
-    const posts = await Posts.findById(getPostId);
-      
-    res.status(200).json({ posts });
-    } catch (error) {
-    next(error);
-    }
-    if (users[0][0].userId !== req.auth.userId || req.isadmin === false) {
-      res.status(400).json({
-          error: new Error('Requête non valide')
-      });
-      return false
-    }
-
-    const filename = posts.imageUrl.split('/images/')[1];
-    fs.unlink(`images/${filename}`, () => {
-      Posts.destroyPost()
-      .then(() => 
-      res.status(201).json({ message: "Post supprimé !" }))
-      .catch(error => res.status(400).json({ error: "Mais dites donc, il n'est pas de vous ce post !" }))  
-      })
-    .catch(error => res.status(500).json({ error }));
+  if (posts[0].length == 0) {
+    return res.status(400).json({ message: "post inexistant"});
+  }
+  Posts.destroyPost(postId);
+  return res.status(200).json({  message: "Post supprimé !" });
 }
-
 // exports.modifyPost = async (req, res, next) => {
 //     res.send("Modify post route");
 // } 

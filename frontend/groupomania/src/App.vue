@@ -8,8 +8,8 @@ import Aside from './components/Aside/Aside.vue';
 <template>
   <div class="app-container">
     <TheHeader class="header b1" />
-    <Feed class="feed b2" />
-    <Aside class="aside b3" />
+    <!-- <Feed class="feed b2" />
+    <Aside class="aside b3" /> -->
     <TheFooter class="footer b4" />
   </div>
 </template>

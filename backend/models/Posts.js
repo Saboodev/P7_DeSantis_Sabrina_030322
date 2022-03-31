@@ -38,7 +38,7 @@ class Posts {
     }
 
     static findById(postId) {
-        let sql = `SELECT * FROM posts WHERE postId = "${postId}";`;
+        let sql = `SELECT * FROM posts WHERE postId = ${postId};`;
 
         return mysqldb.execute(sql);
     }

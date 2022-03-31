@@ -26,14 +26,13 @@ exports.getAllPosts = async (req, res, next) => {
       }
 };
 
-// Récupérer un user
+// Récupérer un post
 exports.getPostById = async (req, res, next) => {
-  console.log(req.params);
+  console.log(req.params.id);
     try {
-        let getPostId = req.params.id;
-        console.log(req.params.id);
+        let postId = req.params.id;
     
-        const posts = await Posts.findById(getPostId);
+        const posts = await Posts.findById(postId);
     
         res.status(200).json({ posts });
       } catch (error) {
@@ -54,9 +53,18 @@ exports.deletePost = async (req, res, next) => {
   Posts.destroyPost(postId);
   return res.status(200).json({  message: "Post supprimé !" });
 }
-// exports.modifyPost = async (req, res, next) => {
-//     res.send("Modify post route");
-// } 
 
+
+exports.modifyPost = async (req, res, next) => {
+  let postId = req.params.id;
+  let { contenu, imageUrl } = req.body;
+  const posts = await Posts.findById(postId);
+    
+    if (posts[0].length == 0) {
+      return res.status(400).json({ message: "post introuvable"});
+      }
+      Posts.updatePost(postId, contenu, imageUrl);
+      return res.status(200).json({  message: "Post modifié" });
+};
   
     

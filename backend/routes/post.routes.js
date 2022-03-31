@@ -6,10 +6,10 @@ const multer = require("../middleware/multer-config")
 
 // selon CRUD
 router.get("/", postCtrl.getAllPosts);
-// router.get("/:id", postCtrl.getPostById);
+router.get("/:id", postCtrl.getPostById);
 router.post("/", multer, postCtrl.createNewPost);
 router.delete("/:id", postCtrl.deletePost);
-// router.put("/:id", auth, multer, postCtrl.modifyPost);
+router.put("/:id", multer, postCtrl.modifyPost);
 
 // Images
 // router.get("/image/:id", auth, postCtrl.getImage);

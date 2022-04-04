@@ -5,9 +5,9 @@ const Users = require("../models/Users");
 // Créer un post
 exports.createNewPost = async (req, res, next) => {
     try {
-        let { contenu, imageUrl } = req.body;
-        let posts = new Posts( contenu, imageUrl );
-
+        let { contenu, imageUrl, userId } = req.body;
+        let posts = new Posts( contenu, imageUrl, userId );
+      console.log(posts);
         posts = await posts.save();
     
         res.status(201).json({ message: "Nouveau post crée"});
@@ -40,7 +40,20 @@ exports.getPostById = async (req, res, next) => {
       }
 };
 
-//Supprimer un post
+// Modifier un post
+exports.modifyPost = async (req, res, next) => {
+  let postId = req.params.id;
+  let { contenu, imageUrl } = req.body;
+  const posts = await Posts.findById(postId);
+    
+    if (posts[0].length == 0) {
+      return res.status(400).json({ message: "post introuvable"});
+      }
+      Posts.updatePost(postId, contenu, imageUrl);
+      return res.status(200).json({  message: "Post modifié" });
+};
+
+// Supprimer un post
 exports.deletePost = async (req, res, next) => {
   
   let postId = req.params.id;
@@ -55,16 +68,4 @@ exports.deletePost = async (req, res, next) => {
 }
 
 
-exports.modifyPost = async (req, res, next) => {
-  let postId = req.params.id;
-  let { contenu, imageUrl } = req.body;
-  const posts = await Posts.findById(postId);
-    
-    if (posts[0].length == 0) {
-      return res.status(400).json({ message: "post introuvable"});
-      }
-      Posts.updatePost(postId, contenu, imageUrl);
-      return res.status(200).json({  message: "Post modifié" });
-};
-  
     

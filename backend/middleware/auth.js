@@ -6,7 +6,6 @@ require('dotenv').config();
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization; //on extrait le token du header authorization
-    console.log(req.headers);
     const decodedToken = jwt.verify(token, process.env.TOKEN_USER);
     const userId = decodedToken.userId;
     req.auth = { userId };

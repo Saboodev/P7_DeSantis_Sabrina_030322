@@ -2,7 +2,6 @@ const mysqldb = require("../db/db.mysql");
 const fs = require('fs');
 const Users = require("../models/Users");
 const Posts = require("../models/Posts");
-const { destroyUser } = require("../models/Users");
 
 
 // Créer un user

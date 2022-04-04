@@ -1,33 +1,29 @@
 const mysqldb = require('../db/db.mysql');
 
 class Comments {
-    constructor(content){
+    constructor(content, postId){
         this.content = content;
+        this.postId = postId;
     }
 
     async save() {
-        let d = new Date();
-        let yyyy = d.getFullYear();
-        let mm = d.getMonth() + 1;
-        let dd = d.getDate();
-
-        let createdAtDate = '${yyyy}-${mm}-${dd}';
-
+       
         let sql = `
-        INSERT INTO posts(
-        content
+        INSERT INTO comments(
+        content,
+        postId
         )
         VALUES(
             '${this.content}',
-            '${createdAtDate}'
+            '${this.postId}'
         );
         ` ;
         return mysqldb.execute(sql);
 
     }
 
-    static findAll() {
-        let sql = "SELECT * FROM comments;"
+    static findAll(postId) {
+        let sql = `SELECT * FROM comments WHERE comments.postId = ${postId};`;
 
         return mysqldb.execute(sql);
     }
@@ -38,14 +34,14 @@ class Comments {
         return mysqldb.execute(sql);
     }
 
-    static updateComment() {
-        let sql = `UPDATE comments SET content = "${content}" WHERE userId = ${userId};`; 
+    static updateComment(commentId, content) {
+        let sql = `UPDATE comments SET content = "${content}" WHERE commentId = ${commentId};`; 
 
         return mysqldb.execute(sql);
     }
 
-    static destroyComment() {
-        let sql = `DELETE FROM comments WHERE userId = ${userId};`;
+    static destroyComment(commentId) {
+        let sql = `DELETE FROM comments WHERE commentId = ${commentId};`;
 
         return mysqldb.execute(sql);
     }

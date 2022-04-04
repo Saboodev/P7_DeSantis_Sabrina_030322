@@ -42,7 +42,7 @@ exports.login = (req, res, next) => {
   const password = req.body.password;
  
   // rechercher dans bdd si l'utilisateur existe
-  Users.findByEmail( email )
+  Users.findByEmail(email)
   .then(users => {
     if (!users) {
       console.log(users);

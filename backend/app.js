@@ -30,10 +30,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// // appel des models dans la DB
-// const db = require("./models");
-// db.sequelize.sync();
-
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/user', userRoutes);
 app.use('/api/comment', commentRoutes);

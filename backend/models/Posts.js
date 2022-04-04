@@ -1,30 +1,24 @@
 const mysqldb = require('../db/db.mysql');
 
 class Posts {
-    constructor(contenu, imageUrl, created){
+    constructor(contenu, imageUrl, userId){
         this.contenu = contenu;
         this.imageUrl = imageUrl;
-        this.created = created;
+        this.userId = userId;
     }
 
     async save() {
-        let d = new Date();
-        let yyyy = d.getFullYear();
-        let mm = d.getMonth() + 1;
-        let dd = d.getDate();
-
-        let createdAtDate = '${yyyy}-${mm}-${dd}';
 
         let sql = `
         INSERT INTO posts(
         contenu,
         imageUrl,
-        created
+        userId
         )
         VALUES(
             '${this.contenu}',
             '${this.imageUrl}',
-            '${createdAtDate}'
+            '${this.userId}'
         );
         ` ;
         return mysqldb.execute(sql);

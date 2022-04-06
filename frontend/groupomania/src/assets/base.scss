@@ -37,7 +37,7 @@ img {
 }
 
 a {
-  color: var(--dark-blue-2);
+  color: var(--text-primary-color);
   text-decoration: none;
 }
 
@@ -47,7 +47,7 @@ body {
   margin: 0;
   font-family: var(--font-family);
   color: var(--dark-blue-2);
-  background-color: var(--gray-3);
+  background-color: var(--gray-1);
 }
 
 // flex
@@ -111,6 +111,11 @@ body {
 .px-20 {
   padding-left: 20px;
   padding-right: 20px;
+}
+
+.px-40 {
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .p-30 {

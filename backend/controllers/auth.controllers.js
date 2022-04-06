@@ -50,8 +50,8 @@ exports.login = (req, res, next) => {
     }
     console.log(password);
     console.log(users[0][0].password);
+
     // contrôle de la validité du password
-    
     let valid = bcrypt.compareSync(password, users[0][0].password)
     console.log(valid); 
     if(valid == true) {

@@ -22,5 +22,7 @@ import FeedPosts from './FeedPosts.vue';
   grid-template-columns: 1fr;
   grid-auto-rows: 300px;
   gap: 20px;
+  border-radius: 20px;
 }
+
 </style>

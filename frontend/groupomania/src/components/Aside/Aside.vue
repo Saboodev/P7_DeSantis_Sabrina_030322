@@ -4,9 +4,13 @@ import AsideMembers from './AsideMembers.vue';
 
 <template>
   <div class="p-20">
-    <h2 class="mb-10">Membres</h2>
     <AsideMembers />
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.p-20 {
+  border-radius: 20px;
+  height: 30rem;
+}
+</style>

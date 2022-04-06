@@ -8,12 +8,17 @@ module.exports = (req, res, next) => {
     const token = req.headers.authorization; //on extrait le token du header authorization
     const decodedToken = jwt.verify(token, process.env.TOKEN_USER);
     const userId = decodedToken.userId;
+    const isadmin = decodedToken.isadmin;
     req.auth = { userId };
     if (req.body.userId && req.body.userId !== userId) {
-      throw 'Invalid user ID';
-    } else {
+      return res.status(401).json({error: "UserId non valable !"})
+    } else if (req.body.isadmin && req.body.isadmin !== isadmin) {
+      console.log(isadmin)
+      return res.status(401).json({error: "Non valable !"})
+  } else{
+      console.log(decodedToken)
       next();
-    }
+  }
   } catch {
     res.status(401).json({
       error: new Error('Invalid request!')

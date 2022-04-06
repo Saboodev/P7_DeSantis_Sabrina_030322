@@ -1,12 +1,12 @@
 const mysqldb = require('../db/db.mysql');
 
 class User {
-    constructor(email, password, pseudo, nom, prenom, bio, isadmin, timestamp){
+    constructor(email, password, nom, prenom, pseudo, bio, isadmin, timestamp){
         this.email = email;
         this.password = password;
-        this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
+        this.pseudo = pseudo;
         this.bio = bio;
         this.isadmin = isadmin;
         this.timestamp = timestamp;
@@ -16,22 +16,22 @@ class User {
 
         let sql = `
         INSERT INTO users(
+        email,
+        password,   
         nom,
         prenom,
         pseudo,
-        email,
         bio,
-        isadmin,
-        password   
+        isadmin
         )
         VALUES(
+            '${this.email}',
+            '${this.password}',
             '${this.nom}',
             '${this.prenom}',
             '${this.pseudo}',
-            '${this.email}',
             '${this.bio}',
-            '${this.isadmin}',
-            '${this.password}'
+            '${this.isadmin}'
         );
         ` ;
         return mysqldb.execute(sql);

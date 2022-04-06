@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="b5">
+  <div>
     <h1>Fil d'actualité</h1>
   </div>
 </template>

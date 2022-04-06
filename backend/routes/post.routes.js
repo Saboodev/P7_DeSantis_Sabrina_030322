@@ -15,7 +15,7 @@ router.put("/:id", multer, postCtrl.modifyPost);
 // router.get("/image/:id", auth, postCtrl.getImage);
 
 // Like / Unlike
-// router.patch("/:id/likeunlike", auth, postCtrl.likeUnlikePost);
+router.post("/:id/like", postCtrl.likesAndDislikes);
 // router.post("/:id/postLikedByUser", auth, postCtrl.postLikedByUser);
 // router.post("/:id/likeunlike", auth, postCtrl.countLikes);
 

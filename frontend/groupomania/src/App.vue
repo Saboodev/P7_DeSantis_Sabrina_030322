@@ -7,10 +7,10 @@ import Aside from './components/Aside/Aside.vue';
 
 <template>
   <div class="app-container">
-    <TheHeader class="header b1" />
-    <!-- <Feed class="feed b2" />
-    <Aside class="aside b3" /> -->
-    <TheFooter class="footer b4" />
+    <TheHeader class="header" />
+    <Feed class="feed" />
+    <Aside class="aside b3" />
+    <TheFooter class="footer" />
   </div>
 </template>
 
@@ -21,20 +21,27 @@ import Aside from './components/Aside/Aside.vue';
 .app-container {
   min-height: 100vh;
   display: grid;
-  grid-template-areas: 'header header' 'feed aside' 'footer footer';
+  grid-template-areas: 'header header' 'main aside' 'footer footer';
   grid-template-columns: 75% 25%;
-  grid-template-rows: 48px auto 48px;
+  grid-template-rows: 80px auto 48px;
 }
 .header {
   grid-area: header;
 }
 .feed {
-  grid-area: feed;
+  grid-area: main;
 }
 .aside {
   grid-area: aside;
+  margin: 20px;
+  grid-column-start: 1;
+  width: 20%;
 }
 .footer {
-  grid-area: footer;
+  grid-area: aside;
+  margin: 20px;
+  grid-column-start: 2;
+  height: 30rem;
+  border-radius: 20px;
 }
 </style>

@@ -6,4 +6,9 @@
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+h1 {
+  color: var(--text-primary-color);
+  text-align: center;
+  font-size: 1.5rem;
+}</style>

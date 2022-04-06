@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <footer class="d-flex flex-column justify-content-center align-items-center">
+  <footer class="d-flex flex-column align-items-center">
     <ul class="d-flex flex-column flex-fill">
       <li class="mr-10">
         <a href="#">Aide</a>
@@ -22,7 +22,12 @@
 
 <style lang="scss" scoped>
 footer {
-  background-color: var(--gray-3);
+  background-color: var(--dark-blue-1);
   color: var(--text-primary-color);
+  height: 200 px;
+}
+
+li {
+  padding: 0.8rem 0;
 }
 </style>

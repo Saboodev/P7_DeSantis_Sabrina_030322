@@ -8,7 +8,7 @@ const Posts = require("../models/Posts");
 exports.createNewUser = async (req, res, next) => {
   try {
     let { email, password, nom, prenom, pseudo, bio, isadmin, timestamp } = req.body;
-    let users = new Users( email, password, pseudo, nom, prenom, bio, isadmin, timestamp );
+    let users = new Users( email, password, nom, prenom, pseudo, bio, isadmin, timestamp );
   
     users = await users.save();
     console.log(users);

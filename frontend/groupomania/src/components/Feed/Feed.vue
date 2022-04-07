@@ -4,7 +4,7 @@ import FeedPostsList from './FeedPostsList.vue';
 
 <template>
   <div>
-    <FeedPosts />
+    <FeedPostsList />
   </div>
 </template>
 

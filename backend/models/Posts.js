@@ -49,6 +49,12 @@ class Posts {
         return mysqldb.execute(sql);
     }
 
+    static likeDislike(postId) {
+        let sql = `SELECT * FROM likes WHERE likes.userId = ${userId} AND likes.postId = ${postId}`;
+
+        return mysqldb.execute(sql);
+    }
+
 }
 
 

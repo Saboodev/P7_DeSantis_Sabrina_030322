@@ -16,10 +16,10 @@ router.post('/register', password, authCtrl.signUp);
 router.post('/login', authCtrl.login);
 
 //gestion de l'user
-router.post('/', multer, userCtrl.createNewUser);
-router.get('/', userCtrl.getAllUsers);
-router.get('/:id', userCtrl.getUser);
-router.put('/:id', multer, userCtrl.updateUser);
-router.delete('/:id', userCtrl.deleteUser);
+router.post('/', auth, multer, userCtrl.createNewUser);
+router.get('/', auth, userCtrl.getAllUsers);
+router.get('/:id', auth, userCtrl.getUser);
+router.put('/:id', auth, multer, userCtrl.updateUser);
+router.delete('/:id', auth, userCtrl.deleteUser);
 
 module.exports = router;

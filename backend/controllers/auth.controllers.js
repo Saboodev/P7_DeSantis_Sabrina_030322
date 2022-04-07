@@ -55,12 +55,13 @@ exports.login = (req, res, next) => {
     let valid = bcrypt.compareSync(password, users[0][0].password)
     console.log(valid); 
     if(valid == true) {
-        
+        console.log(users[0][0]);
         // envoi du userID et du token d'authentification dans la response du serveur 
         res.status(200).json({
-          userId: users.userId,
+          userId: users[0][0].userId,
+          isadmin : users[0][0].isadmin,
           token: jwt.sign(
-            { userId: users.userId },
+            { userId: users[0][0].userId, isadmin: users[0][0].isadmin },
             process.env.TOKEN_USER,
             { expiresIn: '24h' }
           )

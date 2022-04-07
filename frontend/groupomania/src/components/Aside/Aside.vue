@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import AsideMembers from './AsideMembers.vue';
+import AsideMembersList from './AsideMembersList.vue';
 </script>
 
 <template>
   <div class="p-20">
-    <AsideMembers />
+    <AsideMembersList />
   </div>
 </template>
 

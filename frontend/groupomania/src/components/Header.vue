@@ -36,7 +36,6 @@ header {
       width: 140px;
       margin-right: 1.5rem;
     }
-    
   }
 }
 </style>

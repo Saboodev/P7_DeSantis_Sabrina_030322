@@ -21,15 +21,17 @@ import Aside from './components/Aside/Aside.vue';
 .app-container {
   min-height: 100vh;
   display: grid;
-  grid-template-areas: 'header header' 'main aside' 'footer footer';
+  grid-template-areas: 'header header' 'feed aside' 'footer footer';
   grid-template-columns: 75% 25%;
-  grid-template-rows: 80px auto 48px;
+  grid-template-rows: 80px auto 0;
 }
 .header {
   grid-area: header;
 }
 .feed {
-  grid-area: main;
+  grid-area: feed;
+  width: 50%;
+
 }
 .aside {
   grid-area: aside;

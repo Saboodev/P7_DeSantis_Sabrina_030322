@@ -48,13 +48,13 @@ exports.updateUser = async (req, res) => {
   let userId = req.params.id;
   let { nom, prenom, pseudo, bio } = req.body;
   const users = await Users.findById(userId);
-    //   if (users.userId !== req.auth.userId || req.isadmin === true) {
-    //     res.status(400).json({
-    //         error: new Error('Requête non valide')
-    //     });
-    //     return false
-    // }})
-
+      if (users.userId !== req.auth.userId || req.isadmin === true) {
+        console.log("test52: " + users.userId);
+        res.status(400).json({
+            error: new Error('Requête non valide')
+        });
+        return false
+    }
     if (users[0].length == 0) {
       return res.status(400).json({ message: "utilisateur inexistant"});
       }

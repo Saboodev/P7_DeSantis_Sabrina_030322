@@ -16,7 +16,7 @@ router.post('/register', password, authCtrl.signUp);
 router.post('/login', authCtrl.login);
 
 //gestion de l'user
-router.post('/', auth, multer, userCtrl.createNewUser);
+router.post('/', multer, userCtrl.createNewUser);
 router.get('/', auth, userCtrl.getAllUsers);
 router.get('/:id', auth, userCtrl.getUser);
 router.put('/:id', auth, multer, userCtrl.updateUser);

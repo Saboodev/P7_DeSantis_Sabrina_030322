@@ -1,6 +1,7 @@
 :root {
   --dark-blue-1: #0F2240;
   --dark-blue-2: #091F43;
+  --danger-1: red;
   --red-1: #d1515a;
   --red-2: #BA4E56;
   --gray-1: #f6f6f6;
@@ -138,4 +139,24 @@ body {
 
 .mr-20 {
   margin-right: 20px;
+}
+
+//formulaire
+
+input, textarea, select {
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: 8px 15px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-3);
+}
+
+.form-error {
+  color: var(--danger-1);
+  font-size: 14px;
+  font-weight: 500;
 }

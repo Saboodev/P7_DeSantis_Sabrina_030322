@@ -9,8 +9,12 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
-    "vue": "^3.2.31"
+    "@vee-validate/zod": "^4.5.11",
+    "vee-validate": "^4.5.11",
+    "vue": "^3.2.31",
+    "zod": "^3.14.4"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.0",

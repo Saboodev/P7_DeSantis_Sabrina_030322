@@ -2,23 +2,25 @@
 
 <template>
 <div class="post d-flex flex-column">
-  <div class="profil-user">
-    <font-awesome-icon icon="user" />
-    <h4>Pseudo</h4>
-  </div> 
-  <div class="p-10 d-flex flex-column">  
-    <p>Mon dernier post</p>
-    <div class="actionPost d-flex flex-row align-items-center">
-      <div class="index_like">
-        <label class="clic_like" >
-          <input type="checkbox" name="like">
-          <font-awesome-icon icon="thumbs-up" />
-        </label>
+  <!-- <div v-for="post in posts" class="posts"> -->
+    <div class="profil-user">
+      <font-awesome-icon icon="user" />
+      <h4>Pseudo</h4>
+    </div> 
+    <div class="p-10 d-flex flex-column">  
+      <p>Mon dernier post</p>
+      <div class="actionPost d-flex flex-row align-items-center">
+        <div class="index_like">
+          <label class="clic_like" >
+            <input type="checkbox" name="like">
+            <font-awesome-icon icon="thumbs-up" />
+          </label>
+        </div>
+        <a href="#">Commenter</a>
       </div>
-      <a href="#">Commenter</a>
     </div>
   </div>
-</div>
+<!-- </div> -->
 </template>
 
 <style lang="scss" scoped>

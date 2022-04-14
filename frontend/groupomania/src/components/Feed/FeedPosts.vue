@@ -2,30 +2,111 @@
 
 <template>
 <div class="post d-flex flex-column">
-    <div class="profil-image"></div>
-    <div class="p-10 d-flex flex-column">
-      <font-awesome-icon icon="fa-regular fa-user" />
-      <h4>Pseudo</h4>
-      <p>Quoi de neuf ?</p>
-      <div class="d-flex flex-row align-items-center">
-        <font-awesome-icon icon="fa-regular fa-image" />        
-        <button class="btn btn-primary">Publier</button>
+  <div class="profil-user">
+    <font-awesome-icon icon="user" />
+    <h4>Pseudo</h4>
+  </div> 
+  <div class="p-10 d-flex flex-column">  
+    <p>Mon dernier post</p>
+    <div class="actionPost d-flex flex-row align-items-center">
+      <div class="index_like">
+        <label class="clic_like" >
+          <input type="checkbox" name="like">
+          <font-awesome-icon icon="thumbs-up" />
+        </label>
       </div>
+      <a href="#">Commenter</a>
     </div>
   </div>
+</div>
 </template>
 
 <style lang="scss" scoped>
+h4 {
+    padding-left: 0.5rem;
+}
+
+p {
+  padding-left: 0.6rem;
+}
+
+.actionPost {
+  border-top: solid;
+  border-top-color: var(--gray-3);
+  padding-top: 0.6rem;
+}
 .post {
   background-color: var(--gray-2);
+  padding: 0.8rem 0.5rem;
+  width: 500px;
   border: var(--border);
   border-radius: var(--border-radius);
-  &-image {
-    border-radius: 50px;
-    background-image: url('../../assets/mario.png');
-    background-size: cover;
-    background-position: center;
-    height: 250px;
-  }
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+.clic_like {
+  color: var(--dark-blue-2);
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: 100;
+}
+
+input {
+  border: none;
+  appearance: none;
+  padding: 0;
+}
+// input:checked ~ .thumbs-up {
+//   transition-duration: 0.5s;
+//   opacity: 1;
+//   font-weight: 800;
+//   background: #1360df;
+//   background-clip: text;
+//   -webkit-background-clip: text;
+//   -webkit-text-fill-color: transparent;
+//   -webkit-animation: likechecked 0.8s Linear both;
+//   animation: likechecked 0.8s Linear both;
+// }
+
+// @keyframes likechecked {
+//   0% {
+//     opacity: 0;
+//   }
+//   25% {
+//     opacity: 0.25;
+//   }
+//   50% {
+//     opacity: 0.5;
+//   }
+//   75% {
+//     opacity: 0.75;
+//   }
+//   100% {
+//     opacity: 1;
+//   }
+// }
+// @-webkit-keyframes likechecked {
+//   0% {
+//     opacity: 0;
+//   }
+//   25% {
+//     opacity: 0.25;
+//   }
+//   50% {
+//     opacity: 0.5;
+//   }
+//   75% {
+//     opacity: 0.75;
+//   }
+//   100% {
+//     opacity: 1;
+//   }
+// }
+
+a {
+  color: var(--dark-blue-2);
+  font-weight: 500;
+  margin-left: 0.8rem;
 }
 </style>

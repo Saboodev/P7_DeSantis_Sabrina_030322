@@ -1,65 +1,3 @@
-<script setup lang="ts">
-import { useForm, useField } from 'vee-validate';
-import { z } from 'zod';
-import { toFormValidator } from '@vee-validate/zod';
-import { onMounted, ref } from 'vue';
-
-const firstInput = ref<HTMLInputElement | null>(null);
-onMounted(() => {
-  firstInput.value?.focus();
-});
-
-const required = { required_error: 'Veuillez renseigner ce champ' };
-const validationSchema = toFormValidator(
-  z.object({
-    email: z
-      .string(required)
-      .min(1, { message: 'Le titre doit faire au moins 1 caractère' })
-      .max(25, { message: 'Le titre doit faire moins de 25 caractères' }),
-    password: z.string(required),
-    nom: z
-      .string(required)
-      .min(1, { message: 'Ce champ doit contenir au moins 1 caractère' })
-      .max(25, { message: 'Ce champ doit contenir moins de 25 caractères' }),
-    prénom: z
-    .string(required)
-    .min(1, { message: 'Ce champ doit contenir au moins 1 caractère' })
-    .max(25, { message: 'Ce champ doit contenir moins de 25 caractères' }),
-    pseudo: z
-      .string(required)
-      .min(1, { message: 'Ce champ doit contenir au moins 1 caractère' })
-      .max(20, { message: 'Ce champ doit contenir moins de 20 caractères' })
-  })
-);
-
-const { handleSubmit, isSubmitting } = useForm({
-  validationSchema,
-});
-
-const email = useField('email');
-const password = useField('password');
-const nom = useField('nom');
-const prenom = useField('prenom');
-const pseudo = useField('pseudo');
-
-
-const trySubmit = handleSubmit(async (formValues, { resetForm }) => {
-    try {
-    await fetch('http://localhost:3000/api/auth', {
-      method: 'POST',
-      body: JSON.stringify(formValues),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    resetForm();
-    firstInput.value?.focus();
-  } catch (e) {
-    console.log(e);
-  }
-});
-</script>
-
 <template>
   <div class="card">
     <h3 class="mb-10">Créer un compte</h3>
@@ -105,6 +43,69 @@ const trySubmit = handleSubmit(async (formValues, { resetForm }) => {
     </form>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useForm, useField } from 'vee-validate';
+import { z } from 'zod';
+import { toFormValidator } from '@vee-validate/zod';
+import { onMounted, ref } from 'vue';
+
+const firstInput = ref<HTMLInputElement | null>(null);
+onMounted(() => {
+  firstInput.value?.focus();
+});
+
+const required = { required_error: 'Veuillez renseigner ce champ' };
+const validationSchema = toFormValidator(
+  z.object({
+    email: z
+      .string(required)
+      .min(1, { message: 'Le titre doit faire au moins 1 caractère' })
+      .max(25, { message: 'Le titre doit faire moins de 25 caractères' })
+      .regex((/^[a-z0-9.-]+@[a-z0-9._-]{2,}\.[a-z]{2,8}$/), { message: 'Merci de saisir un email correct'}),
+    password: z.string(required),
+    nom: z
+      .string(required)
+      .min(1, { message: 'Ce champ doit contenir au moins 1 caractère' })
+      .max(25, { message: 'Ce champ doit contenir moins de 25 caractères' }),
+    prénom: z
+    .string(required)
+    .min(1, { message: 'Ce champ doit contenir au moins 1 caractère' })
+    .max(25, { message: 'Ce champ doit contenir moins de 25 caractères' }),
+    pseudo: z
+      .string(required)
+      .min(1, { message: 'Ce champ doit contenir au moins 1 caractère' })
+      .max(20, { message: 'Ce champ doit contenir moins de 20 caractères' })
+  })
+);
+
+const { handleSubmit, isSubmitting } = useForm({
+  validationSchema,
+});
+
+const email = useField('email');
+const password = useField('password');
+const nom = useField('nom');
+const prenom = useField('prenom');
+const pseudo = useField('pseudo');
+
+
+const trySubmit = handleSubmit(async (formValues, { resetForm }) => {
+    try {
+    await fetch('http://localhost:3000/api/auth', {
+      method: 'POST',
+      body: JSON.stringify(formValues),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    resetForm();
+    firstInput.value?.focus();
+  } catch (e) {
+    console.log(e);
+  }
+});
+</script>
 
 <style scoped lang="scss">
 .card {

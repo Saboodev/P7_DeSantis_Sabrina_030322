@@ -12,5 +12,6 @@ import AsideMembersList from './AsideMembersList.vue';
 .p-20 {
   border-radius: 20px;
   height: 30rem;
+  background-color: var(--dark-blue-1);
 }
 </style>

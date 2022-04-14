@@ -25,9 +25,10 @@ footer {
   background-color: var(--dark-blue-1);
   color: var(--text-primary-color);
   height: 200 px;
+  padding: 0.6rem;
 }
 
 li {
-  padding: 0.8rem 0;
+  padding: 0.6rem 0;
 }
 </style>

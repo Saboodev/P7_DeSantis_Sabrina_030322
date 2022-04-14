@@ -5,8 +5,9 @@
   --red-1: #d1515a;
   --red-2: #BA4E56;
   --gray-1: #f6f6f6;
-  --gray-2: #c4c4c4;
-  --gray-3: #A2A2A2;
+  --gray-2: #f2f2f2;
+  --gray-3: #c4c4c4;
+  --gray-4: #A2A2A2;
   --text-color: #091f43;
   --text-primary-color: #ffffff;
 
@@ -159,4 +160,9 @@ label {
   color: var(--danger-1);
   font-size: 14px;
   font-weight: 500;
+}
+
+.profil-user {
+  display: flex;
+  justify-content: start;
 }

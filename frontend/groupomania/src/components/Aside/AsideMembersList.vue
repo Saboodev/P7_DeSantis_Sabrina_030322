@@ -5,11 +5,6 @@ import AsideMembers from './AsideMembers.vue';
 <template>
   <div class="d-flex flex-column">
     <AsideMembers />
-    <AsideMembers />
-    <AsideMembers />
-    <AsideMembers />
-    <AsideMembers />
-    <AsideMembers />
   </div>
 </template>
 

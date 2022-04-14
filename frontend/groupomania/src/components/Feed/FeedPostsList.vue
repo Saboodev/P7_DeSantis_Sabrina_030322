@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import FeedPosts from './FeedPosts.vue';
+import NewFeedVue from './NewPost.vue';
 </script>
 
 <template>
   <div class="grid p-20">
-    <FeedPosts />
+    <NewFeedVue />
     <FeedPosts />
     <FeedPosts />
     <FeedPosts />
@@ -15,9 +16,8 @@ import FeedPosts from './FeedPosts.vue';
 <style lang="scss" scoped>
 .grid {
   display: grid;
-  justify-content: center;
+  justify-content: end;
   grid-template-columns: 1fr;
-  grid-auto-rows: 100px;
   gap: 20px;
   border-radius: 30px;
 }

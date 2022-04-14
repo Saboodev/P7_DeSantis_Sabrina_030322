@@ -30,7 +30,7 @@
 
 <style lang="scss" scoped>
 header {
-  background-color: var(--red-2);
+  background-color: var(--dark-blue-1);
   a {
     color: var(--text-primary-color);
     img {

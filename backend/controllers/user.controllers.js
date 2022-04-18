@@ -32,6 +32,9 @@ exports.getAllUsers = async (req, res, next) => {
 
 // Récupérer un user
 exports.getUser = async (req, res, next) => {
+  if (!userId) {
+    return res.status(400).json({ message: "Vous ne pouvez pas exécuter cette requête"});
+  }
   try {
     let getUserId = req.params.id;
 
@@ -48,30 +51,37 @@ exports.updateUser = async (req, res) => {
   let userId = req.params.id;
   let { nom, prenom, pseudo, bio } = req.body;
   const users = await Users.findById(userId);
-      if (users.userId !== req.auth.userId || req.isadmin === true) {
-        console.log("test52: " + users.userId);
-        res.status(400).json({
-            error: new Error('Requête non valide')
-        });
-        return false
+    if (users.userId !== req.auth.userId || req.isadmin === true) {
+      console.log("test52: " + users.userId);
+      res.status(400).json({
+          error: new Error('Requête non valide')
+      });
+      return false
     }
-    if (users[0].length == 0) {
-      return res.status(400).json({ message: "utilisateur inexistant"});
-      }
-      Users.modifyUser(userId, prenom, nom, pseudo, bio);
-      return res.status(200).json({  message: "Profil mis à jour" });
+  if (users[0].length == 0) {
+    return res.status(400).json({ message: "utilisateur inexistant"});
+    }
+    Users.modifyUser(userId, prenom, nom, pseudo, bio);
+    return res.status(200).json({  message: "Profil mis à jour" });
 };
 
 // Supprimer un user
 exports.deleteUser = async (req, res) => {
   let getUserId = req.params.id;
+  if (!userId) {
+    return res.status(400).json({ message: "Vous ne pouvez pas exécuter cette requête"});
+  }
   const users = await Users.findById(getUserId);
-  console.log(users[0].length);
   if (users[0].length == 0) {
     return res.status(400).json({ message: "utilisateur inexistant"});
   }
-  Users.destroyUser(getUserId);
-  return res.status(200).json({  message: "Utilisateur supprimé" });
+  if (users.userId !== req.auth.userId || req.isadmin === true) {
+    Users.destroyUser(getUserId);
+    return res.status(200).json({  message: "Utilisateur supprimé" });
+  } else {
+    return res.status(401).json({ message: 'Requête non autorisée'})
+  }   
+}
 
       // const filename = users.imageUrl.split('/images/')[1];
       // fs.unlink(`images/${filename}`, () => {
@@ -87,5 +97,5 @@ exports.deleteUser = async (req, res) => {
       //   });
       // })
       // .catch(error => res.status(500).json({ error }));
-    }
+
 

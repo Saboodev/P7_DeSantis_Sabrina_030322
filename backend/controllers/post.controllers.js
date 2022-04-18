@@ -50,22 +50,51 @@ exports.getPostById = async (req, res, next) => {
 // Modifier un post
 exports.modifyPost = async (req, res, next) => {
   let postId = req.params.id;
+  if (!postId) {
+    return res.status(400).json({ message: "Vous ne pouvez pas exécuter cette requête"});
+  }
+
   let { contenu, imageUrl } = req.body;
   const posts = await Posts.findById(postId);
-    
-    if (posts[0].length == 0) {
-      return res.status(400).json({ message: "post introuvable"});
-      }
-      Posts.updatePost(postId, contenu, imageUrl);
-      return res.status(200).json({  message: "Post modifié" });
+  if (req.auth.userId !== posts.userId) {
+    return res.status(400).json({ message: "Vous ne pouvez pas exécuter cette requête"});
+  }
+
+  if (posts[0].length == 0) {
+    return res.status(404).json({ message: "post introuvable"});
+  }
+
+  if (req.file) {
+    const filename = posts.imageUrl.split('/images/')[1];
+    fs.unlink(`images/${filename}`, (error) => {
+          if (error) throw error;
+    });
+
+    imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+  } 
+
+  Posts.updatePost(postId, contenu, imageUrl);
+  return res.status(200).json({  message: "Post modifié" });
 };
+
 
 // Supprimer un post
 exports.deletePost = async (req, res, next) => {
   
   let postId = req.params.id;
+  if (!postId) {
+    return res.status(400).json({ message: "Vous ne pouvez pas exécuter cette requête"});
+  }
   
   const posts = await Posts.findById(postId);
+  const users = await Users.findById(getUserId);
+    if (users.userId !== req.auth.userId || req.isadmin === true) {
+      console.log("test52: " + users.userId);
+      res.status(400).json({
+          error: new Error('Requête non valide')
+      });
+      return false
+    }
 
   if (posts[0].length == 0) {
     return res.status(400).json({ message: "post inexistant"});

@@ -17,8 +17,8 @@ import Aside from '../components/Aside/Aside.vue';
 </script>
 
 <style lang="scss">
-@import './assets/base.scss';
-@import './assets/debug.scss';
+@import '../assets/base.scss';
+@import '../assets/debug.scss';
 
 .main-container {
   min-height: 100vh;

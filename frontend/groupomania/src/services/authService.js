@@ -10,6 +10,6 @@ export default {
     },
 
     logout(users) {
-        localStorage.removeItem("users");
+        localStorage.removeItem("users")
     }
 }

@@ -19,6 +19,7 @@ import Aside from './components/Aside/Aside.vue';
 <style lang="scss">
 @import './assets/base.scss';
 @import './assets/debug.scss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 
 .main-container {
   min-height: 100vh;

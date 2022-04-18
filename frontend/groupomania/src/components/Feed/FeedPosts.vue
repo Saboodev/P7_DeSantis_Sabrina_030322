@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
 <div class="post d-flex flex-column">
   <!-- <div v-for="post in posts" class="posts"> -->
@@ -14,14 +12,22 @@
           <label class="clic_like" >
             <input type="checkbox" name="like">
             <font-awesome-icon icon="thumbs-up" />
+            <p>J'aime</p>
           </label>
         </div>
-        <a href="#">Commenter</a>
+        <div class="commentIcon">
+          <font-awesome-icon icon="comment" />
+          <a href="#">Commenter</a>
+        </div>
       </div>
     </div>
   </div>
 <!-- </div> -->
 </template>
+
+<script setup lang="ts">
+</script>
+
 
 <style lang="scss" scoped>
 h4 {
@@ -30,6 +36,9 @@ h4 {
 
 p {
   padding-left: 0.6rem;
+  color: var(--dark-blue-2);
+  font-weight: 500;
+  font-size: 16px;
 }
 
 .actionPost {
@@ -45,13 +54,15 @@ p {
   border-radius: var(--border-radius);
   box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }
-.clic_like {
+.clic_like, .commentIcon {
   color: var(--dark-blue-2);
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   cursor: pointer;
   font-size: 1.5rem;
   font-weight: 100;
+  padding-left: 0.6rem;
 }
 
 input {
@@ -108,6 +119,7 @@ input {
 
 a {
   color: var(--dark-blue-2);
+  font-size: 16px;
   font-weight: 500;
   margin-left: 0.8rem;
 }

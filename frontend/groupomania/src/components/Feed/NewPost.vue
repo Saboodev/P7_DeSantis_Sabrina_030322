@@ -6,12 +6,13 @@
     </div>
     <div class="p-10 d-flex flex-column">
         <label>  
-            <input type="text" name="post" placeholder="Quoi de neuf ?">
+            <input type="text" name="post" placeholder="Quoi de neuf ? ...">
         </label>
         <div class="i d-flex flex-row align-items-center">
-        <a class="download" href="">
+        <label class="download">
+          <input type="file" name="addPic" id="addPicture" accept="image/png, image/jpeg" aria-label="post" />
           <font-awesome-icon color=var(--dark-blue-2) icon="image" />
-        </a>
+        </label>
         <button class="btn btn-primary">Publier</button>
         </div>
     </div>
@@ -22,6 +23,9 @@
 
 
 <style lang="scss" scoped>
+#addPicture {
+  display: none;
+}
 .image {
     border-radius: 50px;
     background-image: url('../../assets/mario.png');

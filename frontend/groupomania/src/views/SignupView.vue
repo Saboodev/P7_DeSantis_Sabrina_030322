@@ -1,44 +1,44 @@
 <template>
   <div class="card">
-    <h3 class="mb-10">Créer un compte</h3>
-    <form @submit="trySubmit">
+    <h2 class="mb-10">Créer un compte</h2>
+    <form @submit="submit">
       <div class="d-flex flex-column mb-20">
         <label class="mb-5">*Email</label>
         <input ref="firstInput" v-model="email.value.value" type="text" />
-        <small class="form-error" v-if="email.errorMessage.value">{{
+        <p class="form-error" v-if="email.errorMessage.value">{{
           email.errorMessage.value
-        }}</small>
+        }}</p>
       </div>
       <div class="d-flex flex-column mb-20">
         <label class="mb-5">*Password</label>
         <input v-model="password.value.value" type="text" />
-        <small class="form-error" v-if="password.errorMessage.value">{{
+        <p class="form-error" v-if="password.errorMessage.value">{{
           password.errorMessage.value
-        }}</small>
+        }}</p>
       </div>
       <div class="d-flex flex-column mb-20">
         <label class="mb-5">*Nom</label>
         <input v-model="nom.value.value" type="text" />
-        <small class="form-error" v-if="nom.errorMessage.value">{{
+        <p class="form-error" v-if="nom.errorMessage.value">{{
           nom.errorMessage.value
-        }}</small>
+        }}</p>
       </div>
       <div class="d-flex flex-column mb-20">
         <label class="mb-5">*Prénom</label>
         <input v-model="prenom.value.value" type="text" />
-        <small class="form-error" v-if="prenom.errorMessage.value">{{
+        <p class="form-error" v-if="prenom.errorMessage.value">{{
           prenom.errorMessage.value
-        }}</small>
+        }}</p>
       </div>
       <div class="d-flex flex-column mb-20">
         <label class="mb-5">*Pseudo</label>
         <input v-model="pseudo.value.value" type="text" />
-        <small class="form-error" v-if="pseudo.errorMessage.value">{{
+        <p class="form-error" v-if="pseudo.errorMessage.value">{{
           pseudo.errorMessage.value
-        }}</small>
+        }}</p>
         </div>
       <button class="btn btn-primary" :disabled="isSubmitting">
-        S'enregistrer
+        Inscription
       </button>
     </form>
   </div>
@@ -48,12 +48,11 @@
 import { useForm, useField } from 'vee-validate';
 import { z } from 'zod';
 import { toFormValidator } from '@vee-validate/zod';
-import { onMounted, ref } from 'vue';
+import type { UserForm } from '../shared/interfaces';
+import { createUser } from '../shared/services/user.service';
+import { useRouter } from 'vue-router';
 
-const firstInput = ref<HTMLInputElement | null>(null);
-onMounted(() => {
-  firstInput.value?.focus();
-});
+const router = useRouter();
 
 const required = { required_error: 'Veuillez renseigner ce champ' };
 const validationSchema = toFormValidator(
@@ -83,28 +82,20 @@ const { handleSubmit, isSubmitting } = useForm({
   validationSchema,
 });
 
+const submit = handleSubmit(async (formValue: UserForm) => {
+    try {
+        await createUser(formValue);
+        router.push('/signup');
+    } catch (e) {
+        console.log(e);
+    }
+});
+
 const email = useField('email');
 const password = useField('password');
 const nom = useField('nom');
 const prenom = useField('prenom');
 const pseudo = useField('pseudo');
-
-
-const trySubmit = handleSubmit(async (formValues, { resetForm }) => {
-    try {
-    await fetch('http://localhost:3000/api/auth', {
-      method: 'POST',
-      body: JSON.stringify(formValues),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    resetForm();
-    firstInput.value?.focus();
-  } catch (e) {
-    console.log(e);
-  }
-});
 </script>
 
 <style scoped lang="scss">

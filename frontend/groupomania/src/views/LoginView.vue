@@ -1,8 +1,8 @@
 <template>
   <div class="card">
-    <h3 class="mb-10">Se connecter</h3>
+    <h2 class="mb-10">Se connecter</h2>
   
-    <form @submit="trySubmit">
+    <form @submit="submit">
       <div class="d-flex flex-column mb-20">
         <label class="mb-5">*Email</label>
         <input v-model="email.value.value" name="email" type="text" />
@@ -11,7 +11,7 @@
         <label class="mb-5">*Password</label>
         <input v-model="password.value.value" name="password" type="text" />
       </div>
-      <button class="btn btn-primary" :disabled="isSubmitting">
+      <button class="btn btn-primary">
         Se connecter
       </button>
     </form>
@@ -22,6 +22,12 @@
 import { useForm, useField } from 'vee-validate';
 import { z } from 'zod';
 import { toFormValidator } from '@vee-validate/zod';
+import type { LoginForm } from '../shared/interfaces';
+import { useRouter } from 'vue-router';
+import { useUser } from '../shared/store';
+
+const router = useRouter();
+const userStore = useUser();
 
 const required = { required_error: 'Veuillez renseigner ce champ' };
 const validationSchema = toFormValidator(
@@ -35,15 +41,20 @@ const validationSchema = toFormValidator(
   })
 );
 
-const { handleSubmit, isSubmitting } = useForm({
-  validationSchema,
+const { handleSubmit, setErrors } = useForm<{ email: string, password: string }>({
+    validationSchema,
 });
 
 const email = useField('email');
 const password = useField('password');
 
-const trySubmit = handleSubmit((formValues) => {
-  console.log(formValues);
+const submit = handleSubmit(async (formValue: LoginForm) => {
+  try {
+    await userStore.login(formValue);
+    router.push('/profil');
+  } catch (e) {
+    setErrors({ password: e as string })
+  }
 });
 </script>
 

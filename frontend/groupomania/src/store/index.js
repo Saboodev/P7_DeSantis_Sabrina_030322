@@ -39,10 +39,10 @@ const store = new Vuex.Store({
         setStatus: function (state, status) {
           state.status = status;
         },
-        logUser: async function (state, users) {
+        userLogin: async function (state, users) {
             state.users = {};
       
-            instance.defaults.headers.common["Authorization"] = users.token;
+            baseURL.defaults.headers.common["Authorization"] = users.token;
             localStorage.setItem("users", JSON.stringify(users)); 
       
             state.users.userId = users.userId;
@@ -57,6 +57,7 @@ const store = new Vuex.Store({
                 token: "",
             };   
             localStorage.clear();
+            this.$router.push("/login");
         },
         userUpdate: async function (state, users) {
             localStorage.removeItem("users");

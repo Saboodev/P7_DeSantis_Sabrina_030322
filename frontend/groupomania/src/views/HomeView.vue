@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import TheHeader from '../components/Header.vue';
+import TheHeader from '../components/NavBar.vue';
 import TheFooter from '../components/Footer.vue';
 import Feed from '../components/Feed/Feed.vue';
 import Aside from '../components/Aside/Aside.vue';

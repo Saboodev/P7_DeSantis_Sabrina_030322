@@ -1,15 +1,17 @@
-import bdd from "@/services/bddService";
+import baseURL from "@/services/bddService";
 
-export default {
+class authServices {
     signUp(users) {
-        return bdd.post("register", users)
-    },
+        return baseURL.post("/register", users)
+    }
 
     login(users) {
-        return bdd.post("login", users)
-    },
+        return baseURL.post("/login", users)
+    }
 
     logout(users) {
         localStorage.removeItem("users")
     }
 }
+
+export default new authServices();

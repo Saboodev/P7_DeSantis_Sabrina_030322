@@ -1,25 +1,30 @@
 <template>
-  <div class="app-container">
-    <TheHeader class="header" />
-    <div class="main-container">
-      <Aside class="aside" />
-      <Feed class="feed" />
-      <TheFooter class="footer" />
+   <div class="d-flex flex-column app-container">
+        <TheHeader :isAuthenticated="false" @logout="logout" />
+        <router-view class="flex-fill"></router-view>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
-import TheHeader from './components/Header.vue';
-import TheFooter from './components/Footer.vue';
-import Feed from './components/Feed/Feed.vue';
-import Aside from './components/Aside/Aside.vue';
+import NavBar from './components/NavBar.vue';
+import { useRouter } from 'vue-router';
+import { useUser } from './shared/store';
+
+const userStore = useUser();
+const router = useRouter();
+
+async function logout() {
+    await userStore.logout();
+    router.push('/connexion');
+}
 </script>
 
 <style lang="scss">
 @import './assets/base.scss';
-@import './assets/debug.scss';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
+.app-container {
+    min-height: 100vh;
+}
 
 .main-container {
   min-height: 100vh;

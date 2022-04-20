@@ -3,10 +3,12 @@
   <!-- <div v-for="post in posts" class="posts"> -->
     <div class="profil-user">
       <font-awesome-icon icon="user" />
-      <h4>Pseudo</h4>
+      <h2>Pseudo</h2>
+      <a class="delete" v-if="posts.userId == users.userId || users.isadmin == true" @click="deletePost(posts.postId)">
+          <font-awesome-icon icon="trash-can" />
+        </a> 
     </div> 
-    <div class="p-10 d-flex flex-column">  
-      <p>Mon dernier post</p>
+    <div class="p-10 d-flex flex-column" v-for="post in posts.slice().reverse()" :key="post">  
       <div class="actionPost d-flex flex-row align-items-center">
         <div class="index_like">
           <label class="clic_like" >
@@ -26,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios';
 </script>
 
 

@@ -6,20 +6,59 @@
     </div>
     <div class="p-10 d-flex flex-column">
         <label>  
-            <input type="text" name="post" placeholder="Quoi de neuf ? ...">
+            <input type="text" name="post" v-model="posts.contenu" placeholder="Quoi de neuf ? ...">
         </label>
         <div class="i d-flex flex-row align-items-center">
         <label class="download">
           <input type="file" name="addPic" id="addPicture" accept="image/png, image/jpeg" aria-label="post" />
           <font-awesome-icon color=var(--dark-blue-2) icon="image" />
         </label>
-        <button class="btn btn-primary">Publier</button>
+        <button class="btn btn-primary" @click="newPost">Publier</button>
         </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import postService from "../../services/postService";
+
+export default {
+ name: "new-post",
+  data() {
+    return {
+      post: {
+        postId: null,
+        pseudo: "",
+        contenu: "",
+      },
+      submitted: false
+    };
+  },
+  methods: {
+    savePost() {
+      var data = {
+        pseudo: this.post.pseudo,
+        contenu: this.post.contenu
+      };
+      postService.create(data)
+        .then(response => {
+          this.post.postId = response.data.id;
+          console.log(response.data);
+          this.submitted = true;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    
+    newPost() {
+      this.submitted = false;
+      this.post = {};
+    }
+  }
+};
+
+</script>
 
 
 <style lang="scss" scoped>

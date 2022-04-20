@@ -3,7 +3,6 @@ const fs = require('fs');
 const Users = require("../models/Users");
 const Posts = require("../models/Posts");
 
-
 // Créer un user
 exports.createNewUser = async (req, res, next) => {
   try {
@@ -23,10 +22,9 @@ exports.createNewUser = async (req, res, next) => {
 exports.getAllUsers = async (req, res, next) => {
   if (req.auth.isadmin != 0) {
     try {
-      
       const users = await Users.findAll();
-  
-      res.status(200).json({ users });
+      const usersData = users[0];
+      res.status(200).json({ usersData });
     } catch (error) {
       next(error);
     }
@@ -40,10 +38,9 @@ exports.getUser = async (req, res, next) => {
   if (req.auth.isadmin != 0 || req.auth.userId == req.params.id) {
     try {
       let getUserId = req.params.id;
-
       const users = await Users.findById(getUserId);
-
-      res.status(200).json({ users });
+      const userData = users[0][0];
+      res.status(200).json({ userData });
     } catch (error) {
       res.status(400).json({ error: "Requête non autorisée" });
     }
@@ -54,21 +51,16 @@ exports.getUser = async (req, res, next) => {
 
 // Mise à jour user
 exports.updateUser = async (req, res) => {
-  let userId = req.params.id;
+  let getUserId = req.params.id;
   let { nom, prenom, pseudo, bio } = req.body;
-  const users = await Users.findById(userId);
-  console.log("users " + users);
-    // if (users[0][0].userId !== req.auth.userId || req.isadmin === true) {
-    //   console.log("test52: " + users.userId);
-    //   res.status(400).json({
-    //       error: new Error('Requête non valide')
-    //   });
-    //   return false
-    // }
-  if (users[0].length == 0) {
-    return res.status(400).json({ message: "utilisateur inexistant"});
+  const user = await Users.findById(getUserId);
+    if (user[0].length == 0) {
+      return res.status(400).json({ error: "utilisateur inexistant"});
+      }
+    if (user[0][0].userId !== req.auth.userId) {
+      return res.status(400).json({ error: "Requête non valide" });
     }
-    Users.modifyUser(userId, prenom, nom, pseudo, bio);
+    Users.modifyUser(req.auth.userId, prenom, nom, pseudo, bio);
     return res.status(200).json({  message: "Profil mis à jour" });
 };
 
@@ -82,7 +74,7 @@ exports.deleteUser = async (req, res) => {
   if (users[0].length == 0) {
     return res.status(400).json({ message: "utilisateur inexistant"});
   }
-  if (users.userId == req.auth.userId || req.auth.isadmin != 0) {
+  if (users[0][0].userId == req.auth.userId || req.auth.isadmin != 0) {
     Users.destroyUser(getUserId);
     return res.status(200).json({  message: "Utilisateur supprimé" });
   } else {

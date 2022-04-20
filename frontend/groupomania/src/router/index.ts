@@ -45,3 +45,5 @@ router.beforeEach(async () => {
     await userStore.fetchCurrentUser();
   }
 });
+
+export default router;

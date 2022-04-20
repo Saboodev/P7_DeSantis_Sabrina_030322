@@ -3,7 +3,7 @@ import router from "../router/index";
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: "http://localhost:5000",
+    baseURL: "http://localhost:3000",
 })
 
 let connected = false;

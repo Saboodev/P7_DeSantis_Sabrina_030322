@@ -1,6 +1,6 @@
 <template>
    <div class="d-flex flex-column app-container">
-        <TheHeader :isAuthenticated="false" @logout="logout" />
+        <NavBar :isAuthenticated="false" @logout="logout" />
         <router-view class="flex-fill"></router-view>
     </div>
 </template>

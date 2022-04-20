@@ -1,6 +1,6 @@
 <template>
   <div class="home-container">
-    <TheHeader class="header" />
+    <NavBar class="navbar" />
     <div class="main-container">
       <Aside class="aside" />
       <Feed class="feed" />
@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import TheHeader from '../components/NavBar.vue';
+import NavBar from '../components/NavBar.vue';
 import TheFooter from '../components/Footer.vue';
 import Feed from '../components/Feed/Feed.vue';
 import Aside from '../components/Aside/Aside.vue';
@@ -18,7 +18,6 @@ import Aside from '../components/Aside/Aside.vue';
 
 <style lang="scss">
 @import '../assets/base.scss';
-@import '../assets/debug.scss';
 
 .main-container {
   min-height: 100vh;

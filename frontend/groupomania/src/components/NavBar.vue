@@ -70,6 +70,11 @@ nav {
     }
   }
 }
+
+img {
+      width: 200px;
+      margin-right: 1.5rem;
+    }
 .searchIcon {
   background-color: var(--dark-blue-2);
   color: white;

@@ -20,44 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import postService from "../../services/postService";
-
-export default {
- name: "new-post",
-  data() {
-    return {
-      post: {
-        postId: null,
-        pseudo: "",
-        contenu: "",
-      },
-      submitted: false
-    };
-  },
-  methods: {
-    savePost() {
-      var data = {
-        pseudo: this.post.pseudo,
-        contenu: this.post.contenu
-      };
-      postService.create(data)
-        .then(response => {
-          this.post.postId = response.data.id;
-          console.log(response.data);
-          this.submitted = true;
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },
-    
-    newPost() {
-      this.submitted = false;
-      this.post = {};
-    }
-  }
-};
-
 </script>
 
 
@@ -65,12 +27,12 @@ export default {
 #addPicture {
   display: none;
 }
-.image {
-    border-radius: 50px;
-    background-image: url('../../assets/mario.png');
-    background-size: cover;
-    background-position: center;
-  }
+// .image {
+//     border-radius: 50px;
+//     background-image: url('../../assets/mario.png');
+//     background-size: cover;
+//     background-position: center;
+//   }
 
 h4 {
     padding-left: 0.5rem;

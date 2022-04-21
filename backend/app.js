@@ -1,22 +1,18 @@
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const mongoose = require('mongoose'); //facilite les interactions avec la bdd
 const path = require('path');
 
 // Pour l'utilisation des variables d'environnement
 const dotenv = require('dotenv').config();
 
-// Importation des routes
-const userRoutes = require('./routes/user');
-const saucesRoutes = require('./routes/sauces');
+//importation connexion à la bdd mysql
+const mysql = require("./db/db.mysql");
 
-// Connexion à la bdd mongoDB
-mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_LINK}`,
-  { useNewUrlParser: true,
-    useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+// Importation des routes
+const userRoutes = require("./routes/user.routes");
+const postRoutes = require('./routes/post.routes');
+const commentRoutes = require('./routes/comment.routes');
 
 // Créer une application express
 const app = express();
@@ -35,8 +31,8 @@ app.use((req, res, next) => {
 });
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
-
-app.use('/api/sauces', saucesRoutes);
-app.use('/api/auth', userRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/comment', commentRoutes);
+app.use('/api/post', postRoutes);
 
 module.exports = app;

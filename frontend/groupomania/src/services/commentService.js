@@ -1,21 +1,21 @@
 import axios from "axios"
 import authHeader from "./axios-service";
 
-const API_URL = "http://localhost:3000/api/post/";
+const API_URL = "http://localhost:3000/api/comment/";
 
 export default {
-    getAllPost(){
+    getAllComment(){
         return axios.get(API_URL, { headers: authHeader()})
     },
-    createPost(data) {
-        return axios.post(API_URL, data, { headers: authHeader()})
+    createComment(id, data) {
+        return axios.post(API_URL + id, data, { headers: authHeader()})
     },
 
-    modifyPost(id, data) {
+    modifyComment(id, data) {
         return axios.put(API_URL + id, data, { headers: authHeader()})
     },
 
-    deletePost(id) {
+    deleteComment(id) {
         return axios.delete(API_URL + id, { headers: authHeader()})
     },
 }

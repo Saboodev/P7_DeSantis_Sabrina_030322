@@ -1,46 +1,47 @@
 <template>
   <div class="card">
-    <h2 class="mb-10">Créer un compte</h2>
-    <form @submit="submit">
+    <h3 class="mb-10">Créer un compte</h3>
+    <form @submit="trySubmit">
       <div class="d-flex flex-column mb-20">
         <label class="mb-5">*Email</label>
         <input ref="firstInput" v-model="email.value.value" type="text" />
-        <p class="form-error" v-if="email.errorMessage.value">{{
+        <small class="form-error" v-if="email.errorMessage.value">{{
           email.errorMessage.value
-        }}</p>
+        }}</small>
       </div>
       <div class="d-flex flex-column mb-20">
         <label class="mb-5">*Password</label>
         <input v-model="password.value.value" type="text" />
-        <p class="form-error" v-if="password.errorMessage.value">{{
+        <small class="form-error" v-if="password.errorMessage.value">{{
           password.errorMessage.value
-        }}</p>
+        }}</small>
       </div>
       <div class="d-flex flex-column mb-20">
         <label class="mb-5">*Nom</label>
         <input v-model="nom.value.value" type="text" />
-        <p class="form-error" v-if="nom.errorMessage.value">{{
+        <small class="form-error" v-if="nom.errorMessage.value">{{
           nom.errorMessage.value
-        }}</p>
+        }}</small>
       </div>
       <div class="d-flex flex-column mb-20">
         <label class="mb-5">*Prénom</label>
         <input v-model="prenom.value.value" type="text" />
-        <p class="form-error" v-if="prenom.errorMessage.value">{{
+        <small class="form-error" v-if="prenom.errorMessage.value">{{
           prenom.errorMessage.value
-        }}</p>
+        }}</small>
       </div>
       <div class="d-flex flex-column mb-20">
         <label class="mb-5">*Pseudo</label>
         <input v-model="pseudo.value.value" type="text" />
-        <p class="form-error" v-if="pseudo.errorMessage.value">{{
+        <small class="form-error" v-if="pseudo.errorMessage.value">{{
           pseudo.errorMessage.value
-        }}</p>
+        }}</small>
         </div>
       <button class="btn btn-primary" :disabled="isSubmitting">
-        Inscription
+        S'enregistrer
       </button>
     </form>
+    <p>Déjà un compte ? <span @click="goLogin()" class="loginSpan"> Connectez-vous </span></p>
   </div>
 </template>
 
@@ -48,11 +49,14 @@
 import { useForm, useField } from 'vee-validate';
 import { z } from 'zod';
 import { toFormValidator } from '@vee-validate/zod';
-import type { UserForm } from '../shared/interfaces';
-import { createUser } from '../shared/services/user.service';
-import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import router from "../router/index"
+import auth from '../services/authService'
 
-const router = useRouter();
+const firstInput = ref<HTMLInputElement | null>(null);
+onMounted(() => {
+  firstInput.value?.focus();
+});
 
 const required = { required_error: 'Veuillez renseigner ce champ' };
 const validationSchema = toFormValidator(
@@ -67,7 +71,7 @@ const validationSchema = toFormValidator(
       .string(required)
       .min(1, { message: 'Ce champ doit contenir au moins 1 caractère' })
       .max(25, { message: 'Ce champ doit contenir moins de 25 caractères' }),
-    prénom: z
+    prenom: z
     .string(required)
     .min(1, { message: 'Ce champ doit contenir au moins 1 caractère' })
     .max(25, { message: 'Ce champ doit contenir moins de 25 caractères' }),
@@ -82,25 +86,39 @@ const { handleSubmit, isSubmitting } = useForm({
   validationSchema,
 });
 
-const submit = handleSubmit(async (formValue: UserForm) => {
-    try {
-        await createUser(formValue);
-        router.push('/signup');
-    } catch (e) {
-        console.log(e);
-    }
-});
-
 const email = useField('email');
 const password = useField('password');
 const nom = useField('nom');
 const prenom = useField('prenom');
 const pseudo = useField('pseudo');
+
+
+const trySubmit = handleSubmit(async (formValues, { resetForm }) => {
+    try {
+    auth.signUp(formValues)
+    router.push("login")
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+function goLogin() {
+    router.push("login")
+};
 </script>
 
 <style scoped lang="scss">
 .card {
   width: 100%;
   max-width: 500px;
+  margin: 2rem auto;
+}
+.btn-primary{
+  margin-top: 1rem;
+}
+.loginSpan {
+  text-decoration: underline;
+  color: #d1515a;
+  cursor: pointer;
 }
 </style>

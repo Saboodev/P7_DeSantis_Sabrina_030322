@@ -1,9 +1,10 @@
 const mysqldb = require('../db/db.mysql');
 
 class Comments {
-    constructor(content, postId){
+    constructor(content, postId, userName){
         this.content = content;
         this.postId = postId;
+        this.userName = userName
     }
 
     async save() {
@@ -11,19 +12,27 @@ class Comments {
         let sql = `
         INSERT INTO comments(
         content,
-        postId
+        postId,
+        userName
         )
         VALUES(
             '${this.content}',
-            '${this.postId}'
+            '${this.postId}',
+            '${this.userName}'
         );
         ` ;
         return mysqldb.execute(sql);
 
     }
 
-    static findAll(postId) {
-        let sql = `SELECT * FROM comments WHERE comments.postId = ${postId};`;
+    static findComments(id) {
+        let sql = `SELECT * FROM comments WHERE postId = ${id};`;
+
+        return mysqldb.execute(sql);
+    }
+
+    static findAll() {
+        let sql = `SELECT * FROM comments`;
 
         return mysqldb.execute(sql);
     }

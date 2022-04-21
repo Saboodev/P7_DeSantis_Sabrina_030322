@@ -1,10 +1,11 @@
 const mysqldb = require('../db/db.mysql');
 
 class Posts {
-    constructor(contenu, imageUrl, userId){
+    constructor(contenu, imageUrl, userId, author){
         this.contenu = contenu;
         this.imageUrl = imageUrl;
         this.userId = userId;
+        this.author = author;
     }
 
     async save() {
@@ -13,12 +14,14 @@ class Posts {
         INSERT INTO posts(
         contenu,
         imageUrl,
-        userId
+        userId, 
+        author
         )
         VALUES(
-            '${this.contenu}',
+            "'${this.contenu}'",
             '${this.imageUrl}',
-            '${this.userId}'
+            '${this.userId}',
+            '${this.author}'
         );
         ` ;
         return mysqldb.execute(sql);
@@ -26,7 +29,7 @@ class Posts {
     }
 
     static findAll() {
-        let sql = "SELECT * FROM posts;"
+        let sql = "SELECT * FROM posts";
 
         return mysqldb.execute(sql);
     }
@@ -56,6 +59,5 @@ class Posts {
     }
 
 }
-
 
 module.exports = Posts;

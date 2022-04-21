@@ -9,13 +9,10 @@ module.exports = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.TOKEN_USER);
     const userId = decodedToken.userId;
     const isadmin = decodedToken.isadmin;
-    console.log("isadmin: " + isadmin);
-    console.log("userId: " + userId);
     req.auth = { userId, isadmin };
     if (req.body.userId && req.body.userId !== userId) {
       return res.status(401).json({error: "UserId non valable !"})
   } else{
-      console.log(decodedToken)
       next();
   }
   } catch {

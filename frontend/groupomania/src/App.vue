@@ -1,30 +1,25 @@
 <template>
-   <div class="d-flex flex-column app-container">
-        <NavBar :isAuthenticated="false" @logout="logout" />
-        <router-view class="flex-fill"></router-view>
-    </div>
+  <div class="app-container">
+    <TheHeader class="header" />
+    <router-view />
+  </div>
 </template>
 
-<script setup lang="ts">
-import NavBar from './components/NavBar.vue';
-import { useRouter } from 'vue-router';
-import { useUser } from './shared/store';
-
-const userStore = useUser();
-const router = useRouter();
-
-async function logout() {
-    await userStore.logout();
-    router.push('/connexion');
+<script>
+import TheHeader from './components/Header.vue';
+export default {
+  name: "app",
+  components: {
+  TheHeader,
+  },
+  
 }
 </script>
 
 <style lang="scss">
 @import './assets/base.scss';
-
-.app-container {
-    min-height: 100vh;
-}
+@import './assets/debug.scss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 
 .main-container {
   min-height: 100vh;

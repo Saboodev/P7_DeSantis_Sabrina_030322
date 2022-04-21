@@ -7,9 +7,6 @@ import NewFeedVue from './NewPost.vue';
   <div class="grid p-20">
     <NewFeedVue />
     <FeedPosts />
-    <FeedPosts />
-    <FeedPosts />
-    <FeedPosts />
   </div>
 </template>
 

@@ -14,7 +14,8 @@ const Users = require("../models/Users");
 
 // signUp pour enregistrer le nouvel utilisateur dans la bdd
 exports.signUp = (req, res) => {
-  let { password, nom, prenom, pseudo, bio, isadmin, timestamp } = req.body;
+  let { password, nom, prenom, pseudo, bio, timestamp } = req.body;
+  const isadmin = 0;
 
   // //hasher le mdp avant l'envoi dans la bdd
   // salt = 10 le nombre de fois où l'algorithme de hashage sera exécuté
@@ -58,8 +59,9 @@ exports.login = (req, res, next) => {
         console.log(users[0][0]);
         // envoi du userID et du token d'authentification dans la response du serveur 
         res.status(200).json({
-          userId: users[0][0].userId,
-          isadmin : users[0][0].isadmin,
+          userInfo: {
+            ...users[0][0]
+          },
           token: jwt.sign(
             { userId: users[0][0].userId, isadmin: users[0][0].isadmin, pseudo: users[0][0].pseudo },
             process.env.TOKEN_USER,

@@ -8,8 +8,9 @@ exports.createComment = async (req, res, next) => {
     try {
       let postId = req.params.id;
       let content = req.body.content;
+      let userName = req.body.userName;
                
-      let comments = new Comments(content, postId);
+      let comments = new Comments(content, postId, userName);
 
       comments = await comments.save();
 
@@ -22,10 +23,7 @@ exports.createComment = async (req, res, next) => {
 // Récupérer tous les commentaires
 exports.getAllComments = async (req, res, next) => {
     try {
-      let postId = req.params.id;
-
-      const comments = await Comments.findAll(postId);
-    
+      const comments = await Comments.findAll();
       res.status(200).json({ comments });
       } catch (error) {
         next(error);

@@ -20,7 +20,6 @@ exports.createNewUser = async (req, res, next) => {
 
 // Récupérer tous les users
 exports.getAllUsers = async (req, res, next) => {
-  if (req.auth.isadmin != 0) {
     try {
       const users = await Users.findAll();
       const usersData = users[0];
@@ -28,9 +27,6 @@ exports.getAllUsers = async (req, res, next) => {
     } catch (error) {
       next(error);
     }
-  } else {
-    return res.status(400).json({ message: "Vous ne pouvez pas exécuter cette requête"});
-  }
 };
 
 // Récupérer un user
@@ -42,7 +38,7 @@ exports.getUser = async (req, res, next) => {
       const userData = users[0][0];
       res.status(200).json({ userData });
     } catch (error) {
-      res.status(400).json({ error: "Requête non autorisée" });
+      res.status(400).json({ error: "Unauthorized request" });
     }
   } else {
     return res.status(400).json({ message: "Vous ne pouvez pas exécuter cette requête"});
@@ -81,19 +77,3 @@ exports.deleteUser = async (req, res) => {
     return res.status(401).json({ message: 'Requête non autorisée'})
   }   
 }
-      // const filename = users.imageUrl.split('/images/')[1];
-      // fs.unlink(`images/${filename}`, () => {
-      //   mysqldb.query(`DELETE FROM users WHERE userId = ${userId}`, users, function (error, results) {
-      //     if (error) {
-      //       console.log(error);
-      //       res.json({ error });
-      //     }else{
-      //       console.log(results);
-      //       res.json({ message: "Utilisateur supprimé" });
-      //     }
-      //   })
-      //   });
-      // })
-      // .catch(error => res.status(500).json({ error }));
-
-

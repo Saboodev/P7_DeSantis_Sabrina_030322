@@ -3,16 +3,39 @@
     <h1>Membres</h1>
     <div>
       <ul>
-        <li class="membersList">
-          <font-awesome-icon icon="user" />
-          <p>Sabrina</p>
+        <li  v-for="user in users" :key="user.userId" class="membersList">
+          <div class="membersList__display">
+            <font-awesome-icon icon="user" />
+            <p>{{user.pseudo}}</p>
+          </div>
         </li>
       </ul>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script>
+import auth from "../../services/authService"
+
+export default {
+  name: "AsideView",
+  data() {
+    return {
+      users: [],
+    };
+  },
+  mounted() {
+    auth.getAllUsers().then(
+      (response) => {
+        this.users = response.data.usersData;
+      },
+      (error) => {
+        console.log(error);
+      }
+    ); 
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 h1 {
@@ -23,8 +46,12 @@ h1 {
 .membersList {
   color: var(--text-primary-color);
   padding: 0.2rem;
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  &__display{
+    display: inline-flex;
+    align-items: center;
+  }
 }
 
 p {

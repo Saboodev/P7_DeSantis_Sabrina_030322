@@ -2,16 +2,15 @@ const fs = require('fs');
 const Likes = require('../models/Likes');
 const Posts = require("../models/Posts");
 const Users = require("../models/Users");
-
+const Comments = require("../models/Comments");
 
 // Créer un post
 exports.createNewPost = async (req, res, next) => {
     try {
-      let { contenu, imageUrl, userId } = req.body;
-      let posts = new Posts( contenu, imageUrl, userId );
-      posts.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + posts.imageUrl;
+      let { contenu, imageUrl, userId, author } = req.body;
+      let posts = new Posts( contenu, imageUrl, userId, author );
+      posts.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
 
-      console.log(posts);
       posts = await posts.save();
   
       res.status(201).json({ message: "Nouveau post crée"});
@@ -24,8 +23,10 @@ exports.createNewPost = async (req, res, next) => {
 exports.getAllPosts = async (req, res, next) => {
     try {
       const posts = await Posts.findAll();
-      posts.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + posts.imageUrl;
-
+      for(post of posts[0]){
+        post.contenu = post.contenu.split("").slice(1, -1).join("");
+        post.comments = await Comments.findComments(post.postId)
+      }
       res.status(200).json({ posts });
       } catch (error) {
         next(error);
@@ -87,20 +88,22 @@ exports.deletePost = async (req, res, next) => {
   }
   
   const posts = await Posts.findById(postId);
-  const users = await Users.findById(getUserId);
-    if (users.userId !== req.auth.userId || req.isadmin === true) {
-      console.log("test52: " + users.userId);
-      res.status(400).json({
-          error: new Error('Requête non valide')
-      });
-      return false
-    }
-
   if (posts[0].length == 0) {
     return res.status(400).json({ message: "post inexistant"});
   }
-  Posts.destroyPost(postId);
-  return res.status(200).json({  message: "Post supprimé !" });
+  if (posts[0][0].userId === req.auth.userId || req.auth.isadmin == 1) {
+    Posts.destroyPost(postId);
+    const filename = posts[0][0].imageUrl.split('/images/')[1];
+    fs.unlink(`images/${filename}`, (error) => {
+          if (error) throw error;
+    });
+    return res.status(200).json({  message: "Post supprimé !" });
+  }else{
+    res.status(400).json({
+      error: new Error('Requête non valide')
+    });
+    return false
+  }
 }
 
 // Liker ou disliker un post

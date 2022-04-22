@@ -34,6 +34,7 @@ mysql> USE groupomania;
 Backend :
 ```sh
 cd backend
+mkdir images
 npm install
 nodemon server
 ```

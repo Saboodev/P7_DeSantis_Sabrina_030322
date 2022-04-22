@@ -3,7 +3,7 @@
     <h1>Membres</h1>
     <div>
       <ul>
-        <li  v-for="user in users" :key="user.userId" class="membersList">
+        <li v-for="user in users" :key="user.userId" class="membersList">
           <div class="membersList__display">
             <font-awesome-icon icon="user" />
             <p>{{user.pseudo}}</p>
@@ -38,6 +38,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mb-10 {
+   @media all and (max-width: 1130px){
+    color: var(--dark-blue-1);
+    border: none;
+  }
+}
 h1 {
   color: var(--text-primary-color);
   text-align: center;

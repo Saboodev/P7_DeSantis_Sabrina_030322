@@ -2,10 +2,10 @@
   <div class="posts">
     <div v-for="post in posts.slice().reverse()" :key="post.postId" class="post d-flex flex-column">
       <div class="profil-user">
-        <h4>Publié par: {{post.author}}</h4>
-        <h4>le {{ post.created.split("T")[0].split("-").reverse().join("/") + ", à " + post.created.split("T")[1].split(":").slice(0,-1).join(":") }} </h4>
+        <h1>Publié par: {{post.author}}</h1>
+        <h2>le {{ post.created.split("T")[0].split("-").reverse().join("/") }} </h2>
         <div v-if="post.userId == this.user.userId || this.user.isadmin == 1" @click="deletePost(post.postId)">
-            <font-awesome-icon icon="trash-can" />
+            <font-awesome-icon class="icon" icon="trash-can" />
             <button href="#">Supprimer</button>
         </div>
       </div> 
@@ -13,25 +13,32 @@
         <img class="image" :src="post.imageUrl"/> 
         <p>{{post.contenu}}</p>
         <div class="actionPost d-flex flex-row align-items-center">
+          <div class="index_like">
+          <label class="clic_like" >
+            <input type="checkbox" name="like">
+            <font-awesome-icon icon="thumbs-up" />
+            <p>J'aime</p>
+          </label>
+        </div>
           <div @click="checkComments(post.postId)" class="commentIcon">
-            <font-awesome-icon icon="comment" />
+            <font-awesome-icon class="icon" icon="comment" />
             <button href="#">Commenter</button>
           </div>
         </div>
         <div @keyup.enter="createComments(post.postId)" v-if="checkComment === 1 && checkCommentId == post.postId">
           <label for="content"></label>
-          <textarea class ="textarea" v-model="newCommentContent" maxlength="100" ></textarea>
+          <textarea class ="textarea" v-model="newCommentContent" maxlength="200" ></textarea>
         </div>
         <div :key="comment.commentId" v-for="comment in post.comments[0]" >
           <div class="comments" >
-            <p>Publié par: {{ comment.userName}}</p>
-            <h4>le {{ comment.timestamp.split("T")[0].split("-").reverse().join("/") + ", à " + comment.timestamp.split("T")[1].split(":").slice(0,-1).join(":") }} </h4>
-            <div v-if="comment.userName == this.user.pseudo || this.user.isadmin == 1" @click="deleteComments(comment.commentId)">
-              <font-awesome-icon icon="trash-can" />
-              <button href="#">Supprimer</button>
+            <p>Publié par: {{ comment.userName }}</p>
+            <h3>le {{ comment.timestamp.split("T")[0].split("-").reverse().join("/") }} </h3>
+            <div class="blocDelete" v-if="comment.userName == this.user.pseudo || this.user.isadmin == 1" @click="deleteComments(comment.commentId)">
+              <font-awesome-icon class="icon" icon="trash-can" />
+              <button class="delete" href="#">Supprimer</button>
             </div>
           </div>
-          <div><p>"{{ comment.content }}"</p></div>       
+          <div class="commentContent"><p>"{{ comment.content }}"</p></div>       
         </div>
       </div>
     </div>
@@ -42,14 +49,12 @@
 import postService from "../../services/postService";
 import commentService from "../../services/commentService";
 
-
 export default {
   name: "FeedPost",
   data() {
     return {
       user: JSON.parse(localStorage.getItem("user")),
       posts: [],
-      comments: [],
       checkComment: 0,
       checkCommentId: 0,
       newCommentContent: "",
@@ -127,23 +132,20 @@ export default {
 
 
 <style lang="scss" scoped>
-
 .comments{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  border-top: solid var(--gray-3);
 }
-
 
 .textarea{
   width: 100%;
   margin-top: 1rem;
 }
-
 .image{
   object-fit: cover;
-  width: 50%;
   align-self: center;
 }
 .posts{
@@ -152,12 +154,17 @@ export default {
   gap: 1rem;
 }
 
-h4 {
-    padding-left: 0.5rem;
+h1, h2, h3 {
+  padding-left: 0.5rem;
+  font-size: 1rem;
+}
+
+h2 {
+  padding-right: 0.5rem;
 }
 
 p {
-  padding-left: 0.6rem;
+  padding: 0 0.6rem;
   color: var(--dark-blue-2);
   font-weight: 500;
   font-size: 16px;
@@ -169,12 +176,11 @@ p {
   justify-content: space-between;
   border-top: solid;
   border-top-color: var(--gray-3);
-  padding-top: 0.6rem;
+  padding: 0.6rem 0;
 }
 .post {
   background-color: var(--gray-2);
   padding: 0.8rem 0.5rem;
-  width: 500px;
   border: var(--border);
   border-radius: var(--border-radius);
   box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
@@ -189,7 +195,6 @@ p {
   font-weight: 100;
   padding-left: 0.6rem;
 }
-
 .profil-user{
   display: flex;
   flex-direction: row;
@@ -201,10 +206,28 @@ input {
   appearance: none;
   padding: 0;
 }
+
 button {
   color: var(--dark-blue-2);
   font-size: 16px;
   font-weight: 500;
-  margin-left: 0.8rem;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
 }
+
+.delete {
+  @media screen and(max-width: 935px) {
+    display: none;
+  }
+}
+
+.commentContent {
+  border: 0.5px solid var(--gray-3);
+  border-radius: 5px;
+  background-color: var(--gray-1);
+  padding: 1.3px;
+  margin-bottom: 0.6rem;
+}
+
 </style>

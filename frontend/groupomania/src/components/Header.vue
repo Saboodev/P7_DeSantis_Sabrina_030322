@@ -1,19 +1,3 @@
-<script>
-export default {
-  name: "NavBar",
-  data() {
-    return {
-      user: JSON.parse(localStorage.getItem("user"))
-    };
-  },
-  methods: {
-    logout(){
-      localStorage.clear()
-    }
-  }
-}
-</script>
-
 <template>
   <header class="px-40 d-flex flex-row align-items-center">
     <router-link to="/">
@@ -45,6 +29,22 @@ export default {
     </ul>
   </header>
 </template>
+
+<script>
+export default {
+  name: "NavBar",
+  data() {
+    return {
+      user: JSON.parse(localStorage.getItem("user"))
+    };
+  },
+  methods: {
+    logout(){
+      localStorage.clear()
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 header {

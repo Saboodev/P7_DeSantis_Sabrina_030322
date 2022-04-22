@@ -12,7 +12,7 @@ router.delete("/:id", auth, postCtrl.deletePost);
 router.put("/:id", auth, multer, postCtrl.modifyPost);
 
 // Gestion des likes
-router.post("/:id/like", auth, postCtrl.likesAndDislikes);
-router.post("/:id/liketotal", auth, postCtrl.countLikes);
+router.post("/:id/like", postCtrl.likesAndDislikes);
+router.post("/:id/liketotal", postCtrl.countLikes);
 
 module.exports = router;

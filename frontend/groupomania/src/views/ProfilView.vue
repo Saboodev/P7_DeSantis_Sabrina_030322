@@ -16,7 +16,6 @@
 </template>
 
 <script>
-
 import auth from "../services/authService"
 
 export default {
@@ -68,6 +67,7 @@ export default {
     margin-top: 0.5rem;
     border: 1px solid var(--gray-2);
     padding: 0.3rem;
+    cursor: pointer;
   }
 }
 

@@ -1,13 +1,16 @@
-<script setup lang="ts">
-import AsideMembers from './AsideMembers.vue';
-</script>
-
 <template>
   <div class="d-flex flex-column">
     <AsideMembers />
   </div>
 </template>
 
-<style lang="scss" scoped>
+<script setup lang="ts">
+import AsideMembers from './AsideMembers.vue';
+</script>
 
+<style lang="scss" scoped>
+.d-flex {
+  padding: 0.5rem;
+  height: 20rem;
+}
 </style>

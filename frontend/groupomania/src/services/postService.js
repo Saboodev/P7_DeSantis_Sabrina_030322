@@ -18,4 +18,12 @@ export default {
     deletePost(id) {
         return axios.delete(API_URL + id, { headers: authHeader()})
     },
+
+    likeDislike(id) {
+        return axios.post(API_URL + id + "/like")
+    },
+
+    countLikePost(id) {
+        return axios.post(API_URL + id + "/liketotal")
+    }
 }

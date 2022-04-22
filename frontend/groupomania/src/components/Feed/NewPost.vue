@@ -1,7 +1,8 @@
 <template>
 <div class="newPost d-flex flex-column">
     <div class="profil-user">
-      <font-awesome-icon icon="user" />
+      <font-awesome-icon class="icon" icon="user" />
+      <p>{{ user.pseudo }}</p>
     </div>
     <div class="p-10 d-flex flex-column">
         <label>  
@@ -58,21 +59,24 @@ export default {
 #addPicture {
   display: none;
 }
-.image {
-    border-radius: 50px;
-    background-image: url('../../assets/mario.png');
-    background-size: cover;
-    background-position: center;
-  }
 
 h4 {
     padding-left: 0.5rem;
   }
+
+.profil-user {
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+.icon {
+  padding-right: 0.5rem;
+}
 .newPost {
   padding: 1rem;
   background-color: var(--gray-2);
   border: var(--border);
-  height: 8rem;
   border-radius: var(--border-radius);
   box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }

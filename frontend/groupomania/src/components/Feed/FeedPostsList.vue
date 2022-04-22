@@ -1,14 +1,14 @@
-<script setup lang="ts">
-import FeedPosts from './FeedPosts.vue';
-import NewFeedVue from './NewPost.vue';
-</script>
-
 <template>
   <div class="grid p-20">
     <NewFeedVue />
     <FeedPosts />
   </div>
 </template>
+
+<script setup lang="ts">
+import FeedPosts from './FeedPosts.vue';
+import NewFeedVue from './NewPost.vue';
+</script>
 
 <style lang="scss" scoped>
 .grid {

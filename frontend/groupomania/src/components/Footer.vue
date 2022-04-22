@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
   <footer class="d-flex flex-column align-items-center">
     <ul class="d-flex flex-column flex-fill">
@@ -20,6 +18,8 @@
   </footer>
 </template>
 
+<script setup lang="ts"></script>
+
 <style lang="scss" scoped>
 footer {
   background-color: var(--dark-blue-1);
@@ -30,5 +30,9 @@ footer {
 
 li {
   padding: 0.6rem 0;
+}
+
+p {
+  padding: 0 0.2rem;
 }
 </style>

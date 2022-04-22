@@ -1,11 +1,13 @@
 <template>
   <div class="container">
-    <h3 class="container__h3">Users:</h3>
+    <h1 class="container__h1">Utilisateurs:</h1>
     <div class="container__bloc" :key="item.username" v-for="item in users">
       <div class="container__bloc__check" v-if="user.pseudo !== item.pseudo">
-        <p class="container__bloc__check__pseudo">{{item.pseudo}}: </p>
-        <p class="container__bloc__check__email">{{item.email}}</p>
-        <button class="container__bloc__check__button" @click="deleteUser(item.userId)">Sup</button>
+        <div>
+          <p class="container__bloc__check__pseudo">{{item.pseudo}}: </p>
+          <p class="container__bloc__check__email">{{item.email}}</p>
+        </div>
+        <button class="container__bloc__check__button" @click="deleteUser(item.userId)">Supprimer</button>
       </div>
     </div>
   </div>
@@ -23,12 +25,10 @@ export default {
     };
   },
   mounted() {
-    console.log(this.user)
     if(localStorage.getItem("user") == null){
       this.$router.push("/login")
-      }
+    }
     if(localStorage.getItem("user") != null && this.user.isadmin === 0){
-      console.log(this.user)
       this.$router.push("/")
     }
     this.user = JSON.parse(localStorage.getItem("user"))

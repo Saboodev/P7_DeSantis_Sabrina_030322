@@ -35,7 +35,7 @@ class Likes {
     }
 
     static likeDislike(postId) {
-        let sql = `SELECT * FROM likes WHERE postId = ${postId}`;
+        let sql = `SELECT * FROM likes WHERE likes.postId = ${postId}`;
 
         return mysqldb.execute(sql);
     }

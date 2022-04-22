@@ -45,16 +45,25 @@ export default {
   width: 50%;
   display: flex;
   justify-content: center;
-
 }
 .aside {
   margin: 20px;
   grid-column-start: 1;
   width: 20%;
+  @media screen and(max-width: 1130px) {
+  }
 }
 .footer {
   margin: 20px;
   height: 20rem;
   border-radius: 20px;
+  @media screen and(max-width: 1130px) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 1rem;
+    border-radius: 0;
+  }
 }
 </style>

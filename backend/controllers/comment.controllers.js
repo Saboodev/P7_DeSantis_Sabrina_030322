@@ -5,42 +5,41 @@ const Users = require("../models/Users");
 
 // Créer un commentaire
 exports.createComment = async (req, res, next) => {
-    try {
-      let postId = req.params.id;
-      let content = req.body.content;
-      let userName = req.body.userName;
-               
-      let comments = new Comments(content, postId, userName);
+  try {
+    let postId = req.params.id;
+    let content = req.body.content.split("").slice(0, -1).join("");
+    let userName = req.body.userName;    
+    let comments = new Comments(content, postId, userName);
 
-      comments = await comments.save();
+    comments = await comments.save();
 
-      res.status(201).json({  message: "Commentaire ajouté" });
-    } catch (error) {
-      next (error);
-    }
+    res.status(201).json({  message: "Commentaire ajouté" });
+  } catch (error) {
+    next (error);
+  }
 };
 
 // Récupérer tous les commentaires
 exports.getAllComments = async (req, res, next) => {
-    try {
-      const comments = await Comments.findAll();
-      res.status(200).json({ comments });
-      } catch (error) {
-        next(error);
-      }
+  try {
+    const comments = await Comments.findAll();
+    res.status(200).json({ comments });
+    } catch (error) {
+      next(error);
+    }
 };
 
 // Récupérer un commentaire
 exports.getCommentById = async (req, res, next) => {
-    try {
-        let getCommentId = req.params.id;
-    
-        const comments = await Comments.findById(getCommentId);
-    
-        res.status(200).json({ comments });
-      } catch (error) {
-        next(error);
-      }
+  try {
+      let getCommentId = req.params.id;
+  
+      const comments = await Comments.findById(getCommentId);
+  
+      res.status(200).json({ comments });
+    } catch (error) {
+      next(error);
+    }
 };
 
 // Modifier un commentaire

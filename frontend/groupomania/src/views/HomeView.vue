@@ -36,6 +36,10 @@ export default {
 .main-container {
   min-height: 100vh;
   display: flex;
+  @media screen and(max-width: 1130px) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 .feed {
   width: 50%;

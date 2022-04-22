@@ -25,7 +25,10 @@ exports.getAllPosts = async (req, res, next) => {
       const posts = await Posts.findAll();
       for(post of posts[0]){
         post.contenu = post.contenu.split("").slice(1, -1).join("");
-        post.comments = await Comments.findComments(post.postId)
+        post.comments = await Comments.findComments(post.postId);
+        for(comment of post.comments[0]) {
+          comment.content = comment.content.split("").slice(1, -1).join("");
+        }
       }
       res.status(200).json({ posts });
       } catch (error) {

@@ -1,14 +1,17 @@
 <template>
   <div  class="container">
-    <h3 class="container__h3"><strong>Profile Name: </strong>{{ this.user.pseudo }}</h3>
-    <p class="container__id"><strong>Id: </strong>{{ this.user.userId }}</p>
-    <p class="container__email"><strong>Email: </strong>{{ this.user.email }}</p>
-    <div class="container__authorities">
-      <p><strong>Authorities:</strong></p>
-      <p v-if="this.user.isadmin === 1">Moderateur</p>
-      <p v-else-if="this.user.isadmin === 0">Standard User</p>
+    <h1>Profil de l'utilisateur</h1>
+    <div class="card">
+      <p class="container__h3"><strong>Pseudo : </strong>{{ this.user.pseudo }}</p>
+      <p class="container__id"><strong>Id de l'utilisateur : </strong>{{ this.user.userId }}</p>
+      <p class="container__email"><strong>Email : </strong>{{ this.user.email }}</p>
+      <div class="container__authorities">
+        <p><strong>Rôle :</strong></p>
+        <p v-if="this.user.isadmin === 1">Modérateur</p>
+        <p v-else-if="this.user.isadmin === 0">utilisateur standard</p>
+      </div>
+      <button class="container__button" @click="deleteUser(this.user.userId)">Supprimer le profil</button>
     </div>
-    <button class="container__button" @click="deleteUser(this.user.userId)">Delete Profile</button>
   </div>
 </template>
 
@@ -53,20 +56,23 @@ export default {
   flex-direction: column;
   align-items: center;
   height: 90vh;
-  &__h3 {
-    font-weight: normal;
-  }
   &__authorities{
     display: flex;
     gap: 0.5rem;
   }
   &__button{
     font-family: 'Roboto', sans-serif;
-    background-color: blue;
-    border-radius: 5px;
-    color: white;
+    background-color: var(--red-2);
+    border-radius: 8px;
+    color: var(--text-primary-color);
     margin-top: 0.5rem;
-    border: 1px solid grey;
+    border: 1px solid var(--gray-2);
+    padding: 0.3rem;
   }
 }
+
+h1 {
+    font-weight: normal;
+    padding: 0.5rem;
+  }
 </style>

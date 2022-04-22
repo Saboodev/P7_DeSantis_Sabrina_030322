@@ -16,7 +16,7 @@ class Comments {
         userName
         )
         VALUES(
-            '${this.content}',
+            "'${this.content}'",
             '${this.postId}',
             '${this.userName}'
         );

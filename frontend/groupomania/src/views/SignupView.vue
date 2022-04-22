@@ -112,13 +112,14 @@ function goLogin() {
   width: 100%;
   max-width: 500px;
   margin: 2rem auto;
+  padding: 1rem;
 }
 .btn-primary{
   margin-top: 1rem;
 }
 .loginSpan {
   text-decoration: underline;
-  color: #d1515a;
+  color: var(--red-1);
   cursor: pointer;
 }
 </style>

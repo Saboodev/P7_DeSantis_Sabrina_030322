@@ -24,6 +24,12 @@ Cloner le projet :
 ```sh
 git clone https://github.com/Saboodev/P7_DeSantis_Sabrina_030322.git
 ```
+Database: 
+```sh
+$ mysql -u root -p groupomania < groupomania.sql
+
+mysql> USE groupomania;
+```
 
 Backend :
 ```sh
@@ -50,5 +56,10 @@ DB_USER = 'insérer vos informations'
 DB_NAME = "groupomania"
 DB_PASSWORD = 'insérer vos informations'
 ```
+
+#### Accès au compte admin
+
+- Email : admin@admin.com
+- Password : Azerty123!
 
 

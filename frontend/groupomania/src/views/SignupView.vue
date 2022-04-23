@@ -66,7 +66,10 @@ const validationSchema = toFormValidator(
       .min(1, { message: 'Le titre doit faire au moins 1 caractère' })
       .max(25, { message: 'Le titre doit faire moins de 25 caractères' })
       .regex((/^[a-z0-9.-]+@[a-z0-9._-]{2,}\.[a-z]{2,8}$/), { message: 'Merci de saisir un email correct'}),
-    password: z.string(required),
+    password: z
+      .string(required).min(8, { message: 'Le password doit faire au moins 8 caractères '})
+      .max(40, { message: 'Le password doit faire moins de 40 caractères '})
+      .regex((/^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]{2,}).*$/), { message: 'Le password doit contenir: 1 maj, 1min, 2chiffres minimum'}),
     nom: z
       .string(required)
       .min(1, { message: 'Ce champ doit contenir au moins 1 caractère' })
